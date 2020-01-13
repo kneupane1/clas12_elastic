@@ -55,9 +55,24 @@ static std::unordered_map<int, std::string> detector_name = {{0, "both"}, {2, "i
 static std::unordered_map<int, std::string> cut_names = {
     {0, "all"}, {1, "1pos"}, {2, "1pos_at180"}, {3, "1pos_MM"}, {4, "1pos_at180_MM"}};
 static std::unordered_map<int, int> detector_fill = {{0, 0}, {2, 1}, {4, 2}};
+static std::map<int, std::string> before_after_cut = {{0, "_before_cut"}, {1, "_after_cut"}};
 
 static const float phi_min_cut = 3.08;
 static const float phi_max_cut = 3.2;
 static const float MM2_cut = 0.2;
+
+// Constants for fiducial cuts
+static const float ROTATE = 60.0 * DEG2RAD;
+static const float SLOPE = 1.0 / tanf(0.5 * ROTATE);
+static const float HEIGHT_PCAL = 45;
+static const float X_SQUARE_PCAL = (HEIGHT_PCAL + 6.0) * (HEIGHT_PCAL + 6.0);  // Why +6?
+
+static const float DCR1_HEIGHT = 25.0;
+static const float DCR2_HEIGHT = 42.0;
+static const float DCR3_HEIGHT = 49.0;
+
+static const float DCR1_SQUARE = DCR1_HEIGHT * DCR1_HEIGHT;
+static const float DCR2_SQUARE = DCR2_HEIGHT * DCR2_HEIGHT;
+static const float DCR3_SQUARE = DCR3_HEIGHT * DCR3_HEIGHT;
 
 #endif
