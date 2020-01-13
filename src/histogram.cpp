@@ -12,6 +12,7 @@ Histogram::Histogram(const std::string& output_file) {
   makeHists();
   Nsparce = std::make_shared<THnSparseD>("nsparce", "nsparce", 3, sparce_bins, sparce_xmin, sparce_xmax);
   makeHists_electron_cuts();
+  makeHistSF();
 }
 
 Histogram::~Histogram() { this->Write(); }
@@ -36,12 +37,31 @@ void Histogram::Write() {
   Electron_Cuts->cd();
   Write_Electron_cuts();
 
+  std::cerr << BOLDBLUE << "Write_SF_1D()" << DEF << std::endl;
+  TDirectory* SF_1D = RootOutputFile->mkdir("sampling_fraction");
+  SF_1D->cd();
+  write_histSf();
+
   std::cout << BOLDBLUE << "Done Writing!!!" << DEF << std::endl;
 }
 
 void Histogram::makeHists() {
   deltaT_proton[0] = std::make_shared<TH2D>("DeltaTProton", "DeltaTProton", bins, zero, 10, bins, -5, 5);
   deltaT_proton[1] = std::make_shared<TH2D>("DeltaTProton_cut", "DeltaTProton_cut", bins, zero, 10, bins, -5, 5);
+  Int_t n = 10;
+
+  // for (Int_t i = 0; i < n; i++) {
+  //   x[i] = i * 0.1;
+  //   y[i] = 10 * sin(x[i] + 0.2);
+  // }
+
+  Double_t P_e[10] = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 10};
+  Double_t SF_upper[10] = {.25 + 0.0,       .236 + 3 * .021, .244 + 3 * .019, .249 + 3 * .016, .254 + 3 * .012,
+                           .252 + 3 * .010, .252 + 3 * .009, .252 + 3 * .008, .25 + 3 * .008,  .237 + 3 * .011};
+  Double_t SF_lower[10] = {.25 - 0.0,       .236 - 3 * .021, .244 - 3 * .019, .249 - 3 * .016, .254 - 3 * .012,
+                           .252 - 3 * .010, .252 - 3 * .009, .252 - 3 * .008, .25 - 3 * .008,  .237 - 3 * .011};
+  SF_gr_upper = std::make_shared<TGraph>(n, P_e, SF_upper);
+  SF_gr_lower = std::make_shared<TGraph>(n, P_e, SF_lower);
 
   for (short sec = 0; sec < num_sectors; sec++) {
     MissingMass[sec] =
@@ -107,6 +127,7 @@ void Histogram::makeHists() {
     }
   }
 }
+
 void Histogram::makeHists_electron_cuts() {
   for (short c = 0; c < num_cuts; c++) {
     EC_sampling_fraction[c] = std::make_shared<TH2D>(Form("EC_sampling_fraction%1.12s", cut_name[c].c_str()),
@@ -124,8 +145,36 @@ void Histogram::makeHists_electron_cuts() {
                                          Form("dcr3_sec%1.12s", cut_name[c].c_str()), bins, -320, 320, bins, -320, 320);
   }
 }
+
+void Histogram::makeHistSF() {
+  for (size_t i = 0; i < W_BINS; i++) {
+    SF_1D[i] = std::make_shared<TH1D>(Form("sf_1d_%1.12s_GeV", W_BINS_NAME[i].c_str()),
+                                      Form("sf_1d%1.12s_GeV", W_BINS_NAME[i].c_str()), bins, 0.0, 0.5);
+  }
+}
 void Histogram::Fill_SF(const std::shared_ptr<Branches12>& _d) {
   sf_hist->Fill(_d->p(0), _d->ec_tot_energy(0) / _d->p(0));
+
+  if (_d->p(0) > 0 && _d->p(0) < 1)
+    SF_1D[0]->Fill(_d->ec_tot_energy(0) / _d->p(0));
+  else if (_d->p(0) > 1. && _d->p(0) < 2.)
+    SF_1D[1]->Fill(_d->ec_tot_energy(0) / _d->p(0));
+  else if (_d->p(0) > 2 && _d->p(0) < 3)
+    SF_1D[2]->Fill(_d->ec_tot_energy(0) / _d->p(0));
+  else if (_d->p(0) > 3 && _d->p(0) < 4)
+    SF_1D[3]->Fill(_d->ec_tot_energy(0) / _d->p(0));
+  else if (_d->p(0) > 4 && _d->p(0) < 5)
+    SF_1D[4]->Fill(_d->ec_tot_energy(0) / _d->p(0));
+  else if (_d->p(0) > 5 && _d->p(0) < 6)
+    SF_1D[5]->Fill(_d->ec_tot_energy(0) / _d->p(0));
+  else if (_d->p(0) > 6 && _d->p(0) < 7)
+    SF_1D[6]->Fill(_d->ec_tot_energy(0) / _d->p(0));
+  else if (_d->p(0) > 7 && _d->p(0) < 8)
+    SF_1D[7]->Fill(_d->ec_tot_energy(0) / _d->p(0));
+  else if (_d->p(0) > 8 && _d->p(0) < 9)
+    SF_1D[8]->Fill(_d->ec_tot_energy(0) / _d->p(0));
+  else if (_d->p(0) > 9 && _d->p(0) < 12)
+    SF_1D[9]->Fill(_d->ec_tot_energy(0) / _d->p(0));
 }
 void Histogram::FillHists_electron_cuts(const std::shared_ptr<Branches12>& _d) {
   vz_position[0]->Fill(_d->vz(0));
@@ -144,7 +193,25 @@ void Histogram::FillHists_electron_with_cuts(const std::shared_ptr<Branches12>& 
   dcr3_sec[1]->Fill(_d->dc_r3_x(0), _d->dc_r3_y(0));
   EC_sampling_fraction[1]->Fill(_d->p(0), _d->ec_tot_energy(0) / _d->p(0));
 }
-void Histogram::Write_SF() { sf_hist->Write(); }
+void Histogram::Write_SF() {
+  sf_hist->Write();
+  // gStyle->SetOptFit(1111);
+  gStyle->SetOptFit(1111);
+  SF_gr_upper->Fit("pol2");
+  SF_gr_upper->Write();
+  SF_gr_lower->Fit("pol2");
+  SF_gr_lower->Write();
+}
+void Histogram::write_histSf() {
+  for (size_t i = 0; i < W_BINS; i++) {
+    SF_1D[i]->SetXTitle("sf (E/P)");
+    SF_1D[i]->Fit("gaus", "QMR+", "QMR+", 0.18, 0.30);
+    //  gROOT->SetStyle("Plain");
+    gStyle->SetOptFit(1111);
+    // if (SF_1D[i]->GetEntries())
+    SF_1D[i]->Write();
+  }
+}
 void Histogram::Write_Electron_cuts() {
   for (short c = 0; c < num_cuts; c++) {
     vz_position[c]->SetXTitle("vz (GeV)");

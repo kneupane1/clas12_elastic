@@ -9,10 +9,15 @@
 #include "TCanvas.h"
 #include "TF1.h"
 #include "TFile.h"
+#include "TGraph.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "THnSparse.h"
+#include "TLegend.h"
 #include "TLorentzVector.h"
+#include "TPaveStats.h"
+#include "TROOT.h"
+#include "TStyle.h"
 #include "colors.hpp"
 #include "constants.hpp"
 #include "cuts.hpp"
@@ -21,6 +26,7 @@
 
 using TH2D_ptr = std::shared_ptr<TH2D>;
 using TH1D_ptr = std::shared_ptr<TH1D>;
+using TGraph_ptr = std::shared_ptr<TGraph>;
 
 class Histogram {
  protected:
@@ -51,8 +57,15 @@ class Histogram {
   static const short NUM_DET = 3;
 
   static const short num_cuts = 2;
-  std::string cut_name[num_cuts] = {"_Without_Cut", " "};
+  std::string cut_name[num_cuts] = {"_Without_Cut", " With_cut "};
+  static const short W_BINS = 10;
+  std::string W_BINS_NAME[W_BINS] = {"0-1", "1-2", "1-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8-9", ">9"};
   TH2D_ptr sf_hist = std::make_shared<TH2D>("SF", "SF", 500, 0, 10.5, 500, 0, 1);
+
+  TH1D_ptr SF_1D[W_BINS];
+  TGraph_ptr SF_gr_upper;
+  TGraph_ptr SF_gr_lower;
+
   TH1D_ptr vz_position[num_cuts];
   TH2D_ptr pcal_sec[num_cuts];
   TH2D_ptr dcr1_sec[num_cuts];
@@ -97,7 +110,9 @@ class Histogram {
   void makeHists();
   void Fill_WvsQ2(const std::shared_ptr<Reaction>& _e);
   void Write_WvsQ2();
-
+  // sampling Fraction
+  void makeHistSF();
+  void write_histSf();
   // P and E
   void Fill_MomVsBeta(const std::shared_ptr<Reaction>& _e);
   void Write_MomVsBeta();
