@@ -63,14 +63,23 @@ class Histogram {
   double sparce_xmax[NUM_DIM] = {w_max, q2_max, 6};
 
   static const short NUM_CUT = 2;
+  static const int W_BINS = 30;
+  std::string W_BINS_NAME[W_BINS] = {
+      "<1.2",    "1.2-1.5", "1.5-1.8", "1.8-2.1", "2.1-2.4", "2.4-2.7", "2.7-3.0", "3.0-3.3",  "3.3-3.6", "3.6-3.9",
+      "3.9-4.2", "4.2-4.5", "4.5-4.8", "4.8-5.1", "5.1-5.4", "5.4-5.7", "5.7-6.0", " 6.0-6.3", "6.3-6.6", "6.6-6.9",
+      "6.9-7.2", "7.2-7.5", "7.5-7.8", "7.8-8.1", "8.1-8.4", "8.4-8.7", "8.7-9.0", "9.0-9.3",  "9.3-9.6", ">9.6"};
 
-  TH2D_ptr sf_hist = std::make_shared<TH2D>("SF", "SF", 500, 0, 10.5, 500, 0, 1);
+  TH2D_ptr sf_hist = std::make_shared<TH2D>("SF", "SF", 500, 0, 10.5, 500, 0, 0.5);
   TH1D_ptr vz_position[NUM_CUT];
   TH2D_ptr pcal_sec[NUM_CUT];
   TH2D_ptr dcr1_sec[NUM_CUT];
   TH2D_ptr dcr2_sec[NUM_CUT];
   TH2D_ptr dcr3_sec[NUM_CUT];
   TH2D_ptr EC_sampling_fraction[NUM_CUT];
+  // SF 1D
+  TH1D_ptr SF_1D[W_BINS];
+  TGraph_ptr SF_gr_upper;
+  TGraph_ptr SF_gr_lower;
   // Kinematics
   TH1D_ptr W_hist_all_events[NUM_SECTORS];
   TH1D_ptr W_hist_1pos[NUM_SECTORS];
@@ -110,13 +119,16 @@ class Histogram {
   void Write_WvsQ2();
   // sampling Fraction
   void makeHistSF();
+  void populate_SF(const std::shared_ptr<Branches12>& _d, double min, double max, int index_sf);
+  void Fill_SF(const std::shared_ptr<Branches12>& _d);
   void write_histSf();
+  void Write_SF();
+
   // P and E
   void Fill_MomVsBeta(const std::shared_ptr<Reaction>& _e);
   void Write_MomVsBeta();
 
-  void Fill_SF(const std::shared_ptr<Branches12>& _d);
-  void Write_SF();
+  // ecectron cuts
   void makeHists_electron_cuts();
   void FillHists_electron_cuts(const std::shared_ptr<Branches12>& _d);
   void FillHists_electron_with_cuts(const std::shared_ptr<Branches12>& _d);

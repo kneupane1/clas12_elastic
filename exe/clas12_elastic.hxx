@@ -53,7 +53,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
     if (thread_id == 0 && current_event % 10000 == 0)
       std::cerr << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
 
-    if (data->charge(0) == NEGATIVE) _hists->FillHists_electron_cuts(data);
+    if (data->charge(0) == NEGATIVE) {
+      _hists->FillHists_electron_cuts(data);
+      //  _hists->Fill_SF(data);
+    }
 
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<Cuts>(data, dt);
