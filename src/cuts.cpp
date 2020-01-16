@@ -26,12 +26,12 @@ bool Cuts::ElectronCuts() {
   _elec &= ((abs(_data->status(0)) >= 2000) && abs(_data->status(0)) < 4000);
   _elec &= (_data->vz(0) > -(2.78 + 3 * 2.16) && _data->vz(0) < (-2.78 + 3 * 2.16));  // 3 sigma cut
   // Use the chi2pid instead of straight line cuts on SF
-  //  _elec &= (abs(_data->chi2pid(0)) < 3);
+  _elec &= (abs(_data->chi2pid(0)) < 3);
 
-  _elec &=
-      (_data->ec_tot_energy(0) / _data->p(0) < (0.30676 - 0.00111 * _data->p(0) - 0.00031 * _data->p(0) * _data->p(0)));
-  _elec &=
-      (_data->ec_tot_energy(0) / _data->p(0) > (0.15546 + 0.01714 * _data->p(0) - 0.00151 * _data->p(0) * _data->p(0)));
+  //_elec &=
+  //  (_data->ec_tot_energy(0) / _data->p(0) < (0.30676 - 0.00111 * _data->p(0) - 0.00031 * _data->p(0) * _data->p(0)));
+  //_elec &=
+  //  (_data->ec_tot_energy(0) / _data->p(0) > (0.15546 + 0.01714 * _data->p(0) - 0.00151 * _data->p(0) * _data->p(0)));
   // FiducialCuts is the slowest of the cuts because of all the calcuations
   // If it already fails a different cut we will quit before
   // calulating for the FiducialCuts to save time
