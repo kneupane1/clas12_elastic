@@ -49,77 +49,94 @@ void Histogram::makeHists() {
   deltaT_proton[after_cut] =
       std::make_shared<TH2D>("DeltaTProton_cut", "DeltaTProton_cut", bins, zero, 10, bins, -5, 5);
 
-  Double_t P_e[10] = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 10};
-  Double_t SF_upper[10] = {.25 + 0.0,       .236 + 3 * .021, .244 + 3 * .019, .249 + 3 * .016, .254 + 3 * .012,
-                           .252 + 3 * .010, .252 + 3 * .009, .252 + 3 * .008, .25 + 3 * .008,  .237 + 3 * .011};
-  Double_t SF_lower[10] = {.25 - 0.0,       .236 - 3 * .021, .244 - 3 * .019, .249 - 3 * .016, .254 - 3 * .012,
-                           .252 - 3 * .010, .252 - 3 * .009, .252 - 3 * .008, .25 - 3 * .008,  .237 - 3 * .011};
-  SF_gr_upper = std::make_shared<TGraph>(10, P_e, SF_upper);
-  SF_gr_lower = std::make_shared<TGraph>(10, P_e, SF_lower);
+  Double_t P_e[30] = /*{0.25,0.75,1.25,1.75,2.25,2.75,3.25,3.75,
+                               4.25,4.75,5.25,5.75,6.25,6.75,7.25,7.75,8.25,8.75,9.25,9.75};*/
+      {0.15, 0.45, 0.75, 1.05, 1.35, 1.65, 1.95, 2.25, 2.55, 2.85, 3.15, 3.45, 3.75, 4.05, 4.35,
+       4.65, 4.95, 5.25, 5.55, 5.85, 6.15, 6.45, 6.75, 7.05, 7.35, 7.65, 7.95, 8.25, 8.55, 8.85};
 
-  for (short sec = 0; sec < NUM_SECTORS; sec++) {
-    MissingMass[sec] =
-        std::make_shared<TH1D>(Form("MM2_hist_sec_%d", sec), Form("MM2_hist_sec_%d", sec), bins, -w_max, w_max);
+    Double_t SF_upper[30] = 
+      {.251 +(3*.034), .202 +(3*.041), .218 +(3*.036), .223 +(3 *.035), .245 +(3*.025),
+       .240 +(3*.023)  .240 +(3*.023), .242 +(3*.022), .243 +(3 *.021), .244 +(3*.020),
+       .244 +(3*.019), .245 +(3*.019), .245 +(3*.018), .245 +(3 *.018), .245 +(3*.018),
+       .245 +(3*.017), .245 +(3*.017), .244 +(3*.017), .243 +(3 *.017), .243 +(3*.017),
+       .242 +(3*.017), .241 +(3*.017), .240 +(3*.017), .238 +(3 *.017), .236 +(3*.017),
+       .234 +(3*.017), .232 +(3*.018), .229 +(3*.018), .226 +(3 *.018), .225 +(3*.018 /*),
+       .224 -( 3 * 0.018),.223 -( 3 * .018),.223 -( 3 * .018),.221 -( 3 * .018),.221 - 3 * .018*/};
 
-    mass_pi0_hist[before_cut][sec] =
-        std::make_shared<TH1D>(Form("mass_pi0_hist_%d", sec), Form("mass_pi0_hist_%d", sec), bins, 0, 0.5);
-    mass_pi0_hist[after_cut][sec] = std::make_shared<TH1D>(Form("mass_pi0_hist_aferPcuts_%d", sec),
-                                                           Form("mass_pi0_hist_aferPcuts_%d", sec), bins, 0, 0.5);
+    Double_t SF_lower[30] = 
+    {.251 -(3*.034), .202 -(3*.041), .218 -(3*.036), .223 -(3 *.035), .245 -(3*.025),
+     .240 -(3*.023)  .240 -(3*.023), .242 -(3*.022), .243 -(3 *.021), .244 -(3*.020),
+     .244 -(3*.019), .245 -(3*.019), .245 -(3*.018), .245 -(3 *.018), .245 -(3*.018),
+     .245 -(3*.017), .245 -(3*.017), .244 -(3*.017), .243 -(3 *.017), .243 -(3*.017),
+     .242 -(3*.017), .241 -(3*.017), .240 -(3*.017), .238 -(3 *.017), .236 -(3*.017),
+     .234 -(3*.017), .232 -(3*.018), .229 -(3*.018), .226 -(3 *.018), .225 -(3*.018 /*),
+     .224 -( 3 * 0.018),.223 -( 3 * .018),.223 -( 3 * .018),.221 -( 3 * .018),.221 - 3 * .018*/};
+    SF_gr_upper = std::make_shared<TGraph>(30, P_e, SF_upper);
+    SF_gr_lower = std::make_shared<TGraph>(30, P_e, SF_lower);
 
-    W_hist_all_events[sec] =
-        std::make_shared<TH1D>(Form("W_hist_sec_%d", sec), Form("W_hist_sec_%d", sec), bins, zero, w_max);
-    W_hist_1pos[sec] =
-        std::make_shared<TH1D>(Form("W_hist_1pos_%d", sec), Form("W_hist_1pos_%d", sec), bins, zero, w_max);
-    W_hist_1pos_0charge[sec] =
-        std::make_shared<TH1D>(Form("W_hist_1pos_MM0_%d", sec), Form("W_hist_1pos_MM0_%d", sec), bins, zero, w_max);
-    W_hist_1pos_noOther[sec] = std::make_shared<TH1D>(Form("W_hist_1pos_noOther_%d", sec),
-                                                      Form("W_hist_1pos_noOther_%d", sec), bins, zero, w_max);
+    for (short sec = 0; sec < NUM_SECTORS; sec++) {
+      MissingMass[sec] =
+          std::make_shared<TH1D>(Form("MM2_hist_sec_%d", sec), Form("MM2_hist_sec_%d", sec), bins, -w_max, w_max);
 
-    W_vs_q2_all_events[sec] =
-        std::make_shared<TH2D>(Form("WQ2_sec_%d", sec), Form("WQ2_sec_%d", sec), bins, zero, w_max, bins, zero, q2_max);
-    W_vs_q2_1pos[sec] = std::make_shared<TH2D>(Form("WQ2_1pos_%d", sec), Form("WQ2_1pos_%d", sec), bins, zero, w_max,
-                                               bins, zero, q2_max);
-    W_vs_q2_1pos_0charge[sec] = std::make_shared<TH2D>(Form("WQ2_1pos_MM0_%d", sec), Form("WQ2_1pos_MM0_%d", sec), bins,
-                                                       zero, w_max, bins, zero, q2_max);
-    W_vs_q2_1pos_noOther[sec] = std::make_shared<TH2D>(
-        Form("WQ2_1pos_noOther_%d", sec), Form("WQ2_1pos_noOther_%d", sec), bins, zero, w_max, bins, zero, q2_max);
-    for (auto&& det : detector_name) {
-      int d = detector_fill[det.first];
+      mass_pi0_hist[before_cut][sec] =
+          std::make_shared<TH1D>(Form("mass_pi0_hist_%d", sec), Form("mass_pi0_hist_%d", sec), bins, 0, 0.5);
+      mass_pi0_hist[after_cut][sec] = std::make_shared<TH1D>(Form("mass_pi0_hist_aferPcuts_%d", sec),
+                                                             Form("mass_pi0_hist_aferPcuts_%d", sec), bins, 0, 0.5);
 
-      ThetaVsP[d][sec] =
-          std::make_shared<TH2D>(Form("MomVsTheta_pos_%s_%d", det.second.c_str(), sec),
-                                 Form("MomVsTheta_pos_%s_%d", det.second.c_str(), sec), 500, zero, 6.0, 500, 0, 90);
+      W_hist_all_events[sec] =
+          std::make_shared<TH1D>(Form("W_hist_sec_%d", sec), Form("W_hist_sec_%d", sec), bins, zero, w_max);
+      W_hist_1pos[sec] =
+          std::make_shared<TH1D>(Form("W_hist_1pos_%d", sec), Form("W_hist_1pos_%d", sec), bins, zero, w_max);
+      W_hist_1pos_0charge[sec] =
+          std::make_shared<TH1D>(Form("W_hist_1pos_MM0_%d", sec), Form("W_hist_1pos_MM0_%d", sec), bins, zero, w_max);
+      W_hist_1pos_noOther[sec] = std::make_shared<TH1D>(Form("W_hist_1pos_noOther_%d", sec),
+                                                        Form("W_hist_1pos_noOther_%d", sec), bins, zero, w_max);
 
-      ThetaVsP_lowW[d][sec] =
-          std::make_shared<TH2D>(Form("MomVsTheta_lowW_%s_%d", det.second.c_str(), sec),
-                                 Form("MomVsTheta_lowW_%s_%d", det.second.c_str(), sec), 500, zero, 6.0, 500, 0, 90);
+      W_vs_q2_all_events[sec] = std::make_shared<TH2D>(Form("WQ2_sec_%d", sec), Form("WQ2_sec_%d", sec), bins, zero,
+                                                       w_max, bins, zero, q2_max);
+      W_vs_q2_1pos[sec] = std::make_shared<TH2D>(Form("WQ2_1pos_%d", sec), Form("WQ2_1pos_%d", sec), bins, zero, w_max,
+                                                 bins, zero, q2_max);
+      W_vs_q2_1pos_0charge[sec] = std::make_shared<TH2D>(Form("WQ2_1pos_MM0_%d", sec), Form("WQ2_1pos_MM0_%d", sec),
+                                                         bins, zero, w_max, bins, zero, q2_max);
+      W_vs_q2_1pos_noOther[sec] = std::make_shared<TH2D>(
+          Form("WQ2_1pos_noOther_%d", sec), Form("WQ2_1pos_noOther_%d", sec), bins, zero, w_max, bins, zero, q2_max);
+      for (auto&& det : detector_name) {
+        int d = detector_fill[det.first];
 
-      ThetaVsPCalc[d][sec] =
-          std::make_shared<TH2D>(Form("MomVsTheta_Calc_%s_%d", det.second.c_str(), sec),
-                                 Form("MomVsTheta_Calc_%s_%d", det.second.c_str(), sec), 500, zero, 6.0, 500, 0, 90);
-      MomVsBeta[d][sec] =
-          std::make_shared<TH2D>(Form("MomVsBeta_%s_%d", det.second.c_str(), sec),
-                                 Form("MomVsBeta_%s_%d", det.second.c_str(), sec), 500, zero, p_max, 500, zero, 1.2);
-      Phie_vs_Phip[d][sec] =
-          std::make_shared<TH2D>(Form("Phie_vs_Phip_%s_%d", det.second.c_str(), sec),
-                                 Form("Phie_vs_Phip_%s_%d", det.second.c_str(), sec), 500, -PI, PI, 500, -PI, PI);
-      Phie_Phip_hist[d][sec] =
-          std::make_shared<TH1D>(Form("Phie_minus_Phip_%s_%d", det.second.c_str(), sec),
-                                 Form("Phie_minus_Phip_%s_%d", det.second.c_str(), sec), 500, zero, 2 * PI);
-      W_hist_1pos_at180[d][sec] =
-          std::make_shared<TH1D>(Form("W_1pos_at180_%s_%d", det.second.c_str(), sec),
-                                 Form("W_1pos_at180_%s_%d", det.second.c_str(), sec), bins, zero, w_max);
-      W_vs_q2_1pos_at180[d][sec] = std::make_shared<TH2D>(Form("WQ2_1pos_at180_%s_%d", det.second.c_str(), sec),
-                                                          Form("WQ2_1pos_at180_%s_%d", det.second.c_str(), sec), bins,
-                                                          zero, w_max, bins, zero, q2_max);
-      W_hist_1pos_at180_MM[d][sec] =
-          std::make_shared<TH1D>(Form("W_1pos_at180_MM_%s_%d", det.second.c_str(), sec),
-                                 Form("W_1pos_at180_MM_%s_%d", det.second.c_str(), sec), bins, zero, w_max);
-      W_vs_q2_1pos_at180_MM[d][sec] = std::make_shared<TH2D>(Form("WQ2_1pos_at180_MM_%s_%d", det.second.c_str(), sec),
-                                                             Form("WQ2_1pos_at180_MM_%s_%d", det.second.c_str(), sec),
-                                                             bins, zero, w_max, bins, zero, q2_max);
+        ThetaVsP[d][sec] =
+            std::make_shared<TH2D>(Form("MomVsTheta_pos_%s_%d", det.second.c_str(), sec),
+                                   Form("MomVsTheta_pos_%s_%d", det.second.c_str(), sec), 500, zero, 6.0, 500, 0, 90);
+
+        ThetaVsP_lowW[d][sec] =
+            std::make_shared<TH2D>(Form("MomVsTheta_lowW_%s_%d", det.second.c_str(), sec),
+                                   Form("MomVsTheta_lowW_%s_%d", det.second.c_str(), sec), 500, zero, 6.0, 500, 0, 90);
+
+        ThetaVsPCalc[d][sec] =
+            std::make_shared<TH2D>(Form("MomVsTheta_Calc_%s_%d", det.second.c_str(), sec),
+                                   Form("MomVsTheta_Calc_%s_%d", det.second.c_str(), sec), 500, zero, 6.0, 500, 0, 90);
+        MomVsBeta[d][sec] =
+            std::make_shared<TH2D>(Form("MomVsBeta_%s_%d", det.second.c_str(), sec),
+                                   Form("MomVsBeta_%s_%d", det.second.c_str(), sec), 500, zero, p_max, 500, zero, 1.2);
+        Phie_vs_Phip[d][sec] =
+            std::make_shared<TH2D>(Form("Phie_vs_Phip_%s_%d", det.second.c_str(), sec),
+                                   Form("Phie_vs_Phip_%s_%d", det.second.c_str(), sec), 500, -PI, PI, 500, -PI, PI);
+        Phie_Phip_hist[d][sec] =
+            std::make_shared<TH1D>(Form("Phie_minus_Phip_%s_%d", det.second.c_str(), sec),
+                                   Form("Phie_minus_Phip_%s_%d", det.second.c_str(), sec), 500, zero, 2 * PI);
+        W_hist_1pos_at180[d][sec] =
+            std::make_shared<TH1D>(Form("W_1pos_at180_%s_%d", det.second.c_str(), sec),
+                                   Form("W_1pos_at180_%s_%d", det.second.c_str(), sec), bins, zero, w_max);
+        W_vs_q2_1pos_at180[d][sec] = std::make_shared<TH2D>(Form("WQ2_1pos_at180_%s_%d", det.second.c_str(), sec),
+                                                            Form("WQ2_1pos_at180_%s_%d", det.second.c_str(), sec), bins,
+                                                            zero, w_max, bins, zero, q2_max);
+        W_hist_1pos_at180_MM[d][sec] =
+            std::make_shared<TH1D>(Form("W_1pos_at180_MM_%s_%d", det.second.c_str(), sec),
+                                   Form("W_1pos_at180_MM_%s_%d", det.second.c_str(), sec), bins, zero, w_max);
+        W_vs_q2_1pos_at180_MM[d][sec] = std::make_shared<TH2D>(Form("WQ2_1pos_at180_MM_%s_%d", det.second.c_str(), sec),
+                                                               Form("WQ2_1pos_at180_MM_%s_%d", det.second.c_str(), sec),
+                                                               bins, zero, w_max, bins, zero, q2_max);
+      }
     }
-  }
 }
 
 void Histogram::makeHists_electron_cuts() {
@@ -159,7 +176,7 @@ void Histogram::Fill_SF(const std::shared_ptr<Branches12>& _d) {
   int index_sf = 0;
   // populate_SF(_d, 0., 0.5, 0);
   // if (_d->p(0) > 1. && _d->p(0) < 1.5) SF_1D[2]->Fill(_d->ec_tot_energy(0) / _d->p(0));
-  for (float x = 0.; x <= 9.7; x = x + .3) {
+  for (float x = 0.; x <= 10.6; x = x + .3) {
     float y = x + 0.3;
     populate_SF(_d, x, y, index_sf);
     index_sf++;
@@ -185,6 +202,7 @@ void Histogram::FillHists_electron_with_cuts(const std::shared_ptr<Branches12>& 
 void Histogram::Write_SF() {
   sf_hist->Write();
   gStyle->SetOptFit(1111);
+  // set stat
   SF_gr_upper->Fit("pol2");
   SF_gr_upper->SetTitle(" sf upper 3#sigma cut");
 
