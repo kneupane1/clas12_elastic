@@ -73,6 +73,8 @@ class Histogram {
                                      "8.4-8.7", "8.7-9.0", "9.0-9.3", "9.3-9.6", "9.6-9.9", "9.9-10.2", "10.2-10.5"};
 
   TH2D_ptr sf_hist = std::make_shared<TH2D>("SF", "SF", 500, 0, 10.5, 500, 0, 0.5);
+  TH2D_ptr EI_P_PCAL_P = std::make_shared<TH2D>("EI/P VS PCAL/P", "EI/P VS PCAL/P", 500, 0, 0.5, 500, 0, 0.5);
+
   TH1D_ptr vz_position[NUM_CUT];
   TH2D_ptr pcal_sec[NUM_CUT];
   TH2D_ptr dcr1_sec[NUM_CUT];
