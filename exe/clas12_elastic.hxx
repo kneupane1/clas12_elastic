@@ -55,13 +55,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
     if (data->charge(0) == NEGATIVE) {
       _hists->FillHists_electron_cuts(data);
-      //_hists->Fill_SF(data);
+      _hists->Fill_SF(data);
     }
 
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<Cuts>(data, dt);
     if (!cuts->ElectronCuts()) continue;
-    _hists->Fill_SF(data);
+    //_hists->Fill_SF(data);
     _hists->FillHists_electron_with_cuts(data);
 
     _hists->Fill_Dt(dt);
@@ -76,6 +76,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
       } else {
         event->SetOther(part);
       }
+    }
+    if (event->onePositive()) {
+      _hists->Fill_x_mu(event);
     }
     _hists->Fill_pi0(event);
     if (event->onePositive_at180_MM0()) {

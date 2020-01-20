@@ -10,11 +10,12 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _beam = std::make_unique<TLorentzVector>();
   _beam_energy = beam_energy;
 
-  _beam->SetPxPyPzE(0.0, 0.0, sqrt(_beam_energy * _beam_energy - MASS_E * MASS_E), _beam_energy);
-
+  _beam->SetPxPyPzE(0.0, 0.0, 10.587, 10.6);  // sqrt(_beam_energy * _beam_energy - MASS_E * MASS_E), _beam_energy);
   _gamma = std::make_unique<TLorentzVector>();
   _target = std::make_unique<TLorentzVector>(0.0, 0.0, 0.0, MASS_P);
   _elec = std::make_unique<TLorentzVector>();
+  _x_mu = std::make_unique<TLorentzVector>();
+
   this->SetElec();
 }
 
@@ -25,10 +26,10 @@ void Reaction::SetElec() {
   _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
 
   *_gamma += *_beam - *_elec;
-
   // Can calculate W and Q2 here
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
+  _beam_theta = _beam->Theta() * RAD2DEG;
 }
 
 void Reaction::SetPositive(int i) {
@@ -76,12 +77,25 @@ void Reaction::SetOther(int i) {
 
 void Reaction::CalcMissMass() {
   if (_pos.size() > 0) {
-    auto mm = std::make_unique<TLorentzVector>();
-    *mm += (*_gamma + *_target);
+    //  auto mm = std::make_unique<TLorentzVector>();
+    //  *mm += (*_gamma + *_target);
+
+    *_x_mu += (*_gamma + *_target);
     // for (auto& _p : _photons) *mm -= *_p;
-    for (auto& _p : _pos) *mm -= *_p;
-    _MM = mm->M();
-    _MM2 = mm->M2();
+    for (auto& _p : _pos) *_x_mu -= *_p;
+    _MM = _x_mu->M();
+    _MM2 = _x_mu->M2();
+
+    _x_mu_E = _x_mu->E();
+    _x_mu_P = _x_mu->P();
+    _x_mu_Px = _x_mu->Px();
+    _x_mu_Py = _x_mu->Py();
+    _x_mu_Pz = _x_mu->Pz();
+
+    _x_mu_theta = _x_mu->Theta() * RAD2DEG;
+
+    //  _x_mu->SetPxPyPzE(mm->Px(), mm->Py(), mm->Pz(), mm->E());
+    //(*_gamma + *_target - *_positive);
   }
 }
 
@@ -91,9 +105,43 @@ float Reaction::MM() {
 }
 float Reaction::MM2() {
   if (_MM2 != _MM2) CalcMissMass();
+
   return _MM2;
 }
+float Reaction::Px_x_mu() {
+  if (_x_mu_Px != _x_mu_Px) CalcMissMass();
 
+  return _x_mu_Px;
+}
+float Reaction::Py_x_mu() {
+  if (_x_mu_Py != _x_mu_Py) CalcMissMass();
+
+  return _x_mu_Py;
+}
+float Reaction::Pz_x_mu() {
+  if (_x_mu_Pz != _x_mu_Pz) CalcMissMass();
+
+  return _x_mu_Pz;
+}
+float Reaction::P_x_mu() {
+  if (_x_mu_P != _x_mu_P) CalcMissMass();
+
+  return _x_mu_P;
+}
+float Reaction::E_x_mu() {
+  if (_x_mu_E != _x_mu_E) CalcMissMass();
+  //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
+  if (_x_mu_E > 0)
+    return _x_mu_E;
+  else
+    return NAN;
+}
+float Reaction::theta_x_mu() {
+  if (_x_mu_theta != _x_mu_theta) CalcMissMass();
+
+  return _x_mu_theta;
+}
+float Reaction::theta_beam() { return _beam_theta; }
 void Reaction::CalcMassPi0() {
   _pi0_mass = 0;
   if (_photons.size() == 2) {

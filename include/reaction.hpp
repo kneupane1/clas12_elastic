@@ -27,6 +27,8 @@ class Reaction {
   std::vector<std::unique_ptr<TLorentzVector>> _other;
   std::vector<std::shared_ptr<TLorentzVector>> _photons;
 
+  std::unique_ptr<TLorentzVector> _x_mu;
+
   bool _hasE = false;
   bool _hasPos = false;
   bool _hasOther = false;
@@ -47,6 +49,15 @@ class Reaction {
   float _W = NAN;
   float _Q2 = NAN;
 
+  float _x_mu_Px = NAN;
+  float _x_mu_Py = NAN;
+  float _x_mu_Pz = NAN;
+
+  float _x_mu_P = NAN;
+  float _x_mu_E = NAN;
+  float _x_mu_theta = NAN;
+  float _beam_theta = NAN;
+
   void SetElec();
 
  public:
@@ -64,6 +75,14 @@ class Reaction {
   float MM();
   float MM2();
 
+  float theta_beam();
+  float theta_x_mu();
+  float P_x_mu();
+  float E_x_mu();
+  float Px_x_mu();
+  float Py_x_mu();
+  float Pz_x_mu();
+
   inline float W() { return _W; }
   inline float Q2() { return _Q2; }
   inline short sec() { return _data->dc_sec(0); }
@@ -74,6 +93,7 @@ class Reaction {
   }
   inline float pos_P() {
     if (_pos.size() == 0) return NAN;
+
     return _pos.front()->P();
   }
   inline short pos_det() {
