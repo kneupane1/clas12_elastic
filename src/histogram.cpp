@@ -202,16 +202,18 @@ void Histogram::FillHists_electron_with_cuts(const std::shared_ptr<Branches12>& 
   EC_sampling_fraction[after_cut]->Fill(_d->p(0), _d->ec_tot_energy(0) / _d->p(0));
 }
 void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
-  E_x_mu->Fill(_e->E_x_mu());
-  P_x_mu->Fill(_e->P_x_mu());
-  Px_x_mu->Fill(_e->Px_x_mu());
-  Py_x_mu->Fill(_e->Py_x_mu());
-  Pz_x_mu->Fill(_e->Pz_x_mu());
-  diff_E_P_x_mu->Fill(_e->E_x_mu() - _e->P_x_mu());
-  mom_vs_E_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
-  if ((_e->E_x_mu() > 0.0) && (_e->E_x_mu() > 0.0)) mom_pos_vs_E_pos_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
+  if (abs(_e->E_x_mu()) < 0.1) {
+    E_x_mu->Fill(_e->E_x_mu());
+    P_x_mu->Fill(_e->P_x_mu());
+    Px_x_mu->Fill(_e->Px_x_mu());
+    Py_x_mu->Fill(_e->Py_x_mu());
+    Pz_x_mu->Fill(_e->Pz_x_mu());
+    diff_E_P_x_mu->Fill(_e->E_x_mu() - _e->P_x_mu());
+    mom_vs_E_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
+    if ((_e->E_x_mu() > 0.0) && (_e->E_x_mu() > 0.0)) mom_pos_vs_E_pos_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
 
-  diff_theta_in_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
+    diff_theta_in_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
+  }
 }
 
 void Histogram::Write_SF() {
