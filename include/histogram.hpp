@@ -74,21 +74,21 @@ class Histogram {
 
   TH2D_ptr sf_hist = std::make_shared<TH2D>("SF", "SF", 500, 0, 10.5, 500, 0, 0.5);
   TH2D_ptr EI_P_PCAL_P = std::make_shared<TH2D>("EI/P VS PCAL/P", "EI/P VS PCAL/P", 500, 0, 0.35, 500, 0, 0.35);
-  TH1D_ptr E_x_mu = std::make_shared<TH1D>("Energy (x_mu = e(p,p')e')", "Energy (x_mu = e(p,p')e')", 500, -2.0, 4.0);
-  TH1D_ptr P_x_mu = std::make_shared<TH1D>("mom (x_mu = e(p,p')e')", "mom (x_mu = e(p,p')e')", 500, -0.50, 2.0);
+  TH1D_ptr E_x_mu = std::make_shared<TH1D>("Energy (x_mu = e(p,p')e')", "Energy (x_mu = e(p,p')e')", 500, -2.0, 9.0);
+  TH1D_ptr P_x_mu = std::make_shared<TH1D>("mom (x_mu = e(p,p')e')", "mom (x_mu = e(p,p')e')", 500, -0.50, 9.0);
   TH1D_ptr Px_x_mu = std::make_shared<TH1D>("Px (x_mu = e(p,p')e')", "Px (x_mu = e(p,p')e')", 500, -0.50, 2.0);
   TH1D_ptr Py_x_mu = std::make_shared<TH1D>("Py (x_mu = e(p,p')e')", "Py (x_mu = e(p,p')e')", 500, -0.50, 2.0);
-  TH1D_ptr Pz_x_mu = std::make_shared<TH1D>("Pz (x_mu = e(p,p')e')", "Pz (x_mu = e(p,p')e')", 500, -1.0, 4.0);
+  TH1D_ptr Pz_x_mu = std::make_shared<TH1D>("Pz (x_mu = e(p,p')e')", "Pz (x_mu = e(p,p')e')", 500, -1.0, 9.0);
 
   TH1D_ptr diff_E_P_x_mu =
-      std::make_shared<TH1D>("Mom-Energy (x_mu = e(p,p')e')", " (Mom-Energy) of (x_mu = e(p,p')e')", 500, -1.0, 3.0);
+      std::make_shared<TH1D>("Energy-Mom(x_mu = e(p,p')e')", " (Energy-Mom) of (x_mu = e(p,p')e')", 500, -1.0, 1.5);
   TH2D_ptr mom_vs_E_x_mu =
       std::make_shared<TH2D>("Mom_vs_Energy", " Mom_vs_Energy_component", 500, -1.0, 2.0, 500, 0.0, 3.0);
 
   TH2D_ptr mom_pos_vs_E_pos_x_mu =
       std::make_shared<TH2D>("Mom_vs_Energy_pos", " Mom_vs_Energy_component_", 500, -1.0, 2.0, 500, 0.0, 3.0);
   TH1D_ptr diff_theta_in_x_mu = std::make_shared<TH1D>("diff#theta x_mu and initial electron",
-                                                       "diff#theta x_mu and initial electron", 500, 0, 180);
+                                                       "diff#theta x_mu and initial electron", 500, -5.0, 180);
   TH2D_ptr Dthtea_vs_Dphi =
       std::make_shared<TH2D>("#Del#theta vs #Del#phi", "#Delata#Theta vs #Delata#Phi", 500, -180, 180, 500, -180, 180);
 

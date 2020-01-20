@@ -207,7 +207,7 @@ void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
   Px_x_mu->Fill(_e->Px_x_mu());
   Py_x_mu->Fill(_e->Py_x_mu());
   Pz_x_mu->Fill(_e->Pz_x_mu());
-  diff_E_P_x_mu->Fill(-_e->E_x_mu() + _e->P_x_mu());
+  diff_E_P_x_mu->Fill(_e->E_x_mu() - _e->P_x_mu());
   mom_vs_E_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
   if ((_e->E_x_mu() > 0.0) && (_e->E_x_mu() > 0.0)) mom_pos_vs_E_pos_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
 
