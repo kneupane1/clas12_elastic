@@ -131,10 +131,10 @@ float Reaction::P_x_mu() {
 float Reaction::E_x_mu() {
   if (_x_mu_E != _x_mu_E) CalcMissMass();
   //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
-  if (_x_mu_E > 0)
-    return _x_mu_E;
-  else
-    return NAN;
+  //  if (_x_mu_E > 0)
+  return _x_mu_E;
+  // else
+  // return NAN;
 }
 float Reaction::theta_x_mu() {
   if (_x_mu_theta != _x_mu_theta) CalcMissMass();
