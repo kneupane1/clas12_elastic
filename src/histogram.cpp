@@ -215,6 +215,9 @@ void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
   mom_vs_E_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
   if ((_e->E_x_mu() > 0.0) && (_e->E_x_mu() > 0.0)) mom_pos_vs_E_pos_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
 
+  if (_e->E_x_mu() > 0.8) {
+    E_x_mu_ph_hist->Fill(_e->E_x_mu());
+  }
   diff_theta_in_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
   //}
 }
@@ -237,12 +240,14 @@ void Histogram::Write_SF() {
   EI_P_PCAL_P->SetYTitle("Etot/P");
   EI_P_PCAL_P->Write();
 
-  E_x_mu_hist->Fit("gaus", "QMR+", "QMR+", -0.45, 0.55);
+  E_x_mu_hist->Fit("gaus", "QMR+", "QMR+", -0.45, 0.45);
   //  gROOT->SetStyle("Plain");
   gStyle->SetOptFit(1111);
   E_x_mu_hist->SetXTitle("Energy comp (GeV)");
   E_x_mu_hist->Write();
 
+  E_x_mu_ph_hist->SetXTitle("Energy comp (GeV)");
+  E_x_mu_ph_hist->Write();
   P_x_mu->SetXTitle("Momentum (GeV)");
   P_x_mu->Write();
   Px_x_mu->SetXTitle("Px (GeV)");
