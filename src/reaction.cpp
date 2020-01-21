@@ -30,6 +30,7 @@ void Reaction::SetElec() {
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
   _beam_theta = _beam->Theta() * RAD2DEG;
+  _elec_theta = _elec->Theta() * RAD2DEG;
 }
 
 void Reaction::SetPositive(int i) {
@@ -164,6 +165,8 @@ float Reaction::theta_x_mu() {
   return _x_mu_theta;
 }
 float Reaction::theta_beam() { return _beam_theta; }
+float Reaction::theta_elec() { return _elec_theta; }
+
 void Reaction::CalcMassPi0() {
   _pi0_mass = 0;
   if (_photons.size() == 2) {

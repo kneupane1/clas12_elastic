@@ -59,6 +59,7 @@ class Reaction {
   float _x_mu_E = NAN;
   float _x_mu_theta = NAN;
   float _beam_theta = NAN;
+  float _elec_theta = NAN;
 
   void SetElec();
 
@@ -78,6 +79,7 @@ class Reaction {
   float MM2();
 
   float theta_beam();
+  float theta_elec();
   float theta_x_mu();
   float P_x_mu();
   float E_x_mu();
