@@ -22,7 +22,7 @@ bool Cuts::ElectronCuts() {
   _elec &= (_data->charge(0) == NEGATIVE);
   _elec &= (_data->pid(0) == ELECTRON);
   // Why 1.0 for minimumm momentum cut?
-  //_elec &= (_data->p(0) > 1.0);
+  _elec &= (_data->p(0) > 1.0);
   _elec &= ((abs(_data->status(0)) >= 2000) && abs(_data->status(0)) < 4000);
   _elec &= (_data->vz(0) > -(2.78 + 3 * 2.16) && _data->vz(0) < (-2.78 + 3 * 2.16));  // 3 sigma cut
   // Use the chi2pid instead of straight line cuts on SF
@@ -104,6 +104,16 @@ bool Cuts::FiducialCuts() {
   return _fid_cut;
 }
 
+bool Cuts::IsPositive(int i) {
+  if (_data->gpart() <= i) return false;
+  bool _pos = true;
+  _pos &= (_data->charge(i) == POSITIVE);
+  _pos &= _data->pid(i) == PROTON;
+  //_proton = (_data->p(i) > 1.0);
+  if (!std::isnan(_dt->dt_P(i))) _pos &= (abs(_dt->dt_P(i)) < 0.5);
+  // if (!std::isnan(_dt->dt_ctof_P(i))) _proton &= (abs(_dt->dt_ctof_P(i)) < 0.2);
+  return _pos;
+}
 bool Cuts::IsPip(int i) {
   if (_data->gpart() <= i) return false;
   bool _pip = true;
@@ -116,13 +126,12 @@ bool Cuts::IsProton(int i) {
   if (_data->gpart() <= i) return false;
   bool _proton = true;
   _proton &= (_data->charge(i) == POSITIVE);
-  //_proton &= _data->pid(i) == PROTON;
+  _proton &= _data->pid(i) == PROTON;
   //_proton = (_data->p(i) > 1.0);
   if (!std::isnan(_dt->dt_P(i))) _proton &= (abs(_dt->dt_P(i)) < 0.5);
   // if (!std::isnan(_dt->dt_ctof_P(i))) _proton &= (abs(_dt->dt_ctof_P(i)) < 0.2);
   return _proton;
 }
-
 bool Cuts::IsPim(int i) {
   if (_data->gpart() <= i) return false;
   bool _pim = true;

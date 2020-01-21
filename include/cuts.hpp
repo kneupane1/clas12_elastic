@@ -23,6 +23,7 @@ class Cuts {
 
   bool ElectronCuts();
   bool FiducialCuts();
+  bool IsPositive(int i);
   bool IsPip(int i);
   bool IsProton(int i);
   bool IsPim(int i);

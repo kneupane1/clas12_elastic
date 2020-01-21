@@ -202,18 +202,21 @@ void Histogram::FillHists_electron_with_cuts(const std::shared_ptr<Branches12>& 
   EC_sampling_fraction[after_cut]->Fill(_d->p(0), _d->ec_tot_energy(0) / _d->p(0));
 }
 void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
-  if (abs(_e->E_x_mu()) < 0.1) {
-    E_x_mu->Fill(_e->E_x_mu());
-    P_x_mu->Fill(_e->P_x_mu());
-    Px_x_mu->Fill(_e->Px_x_mu());
-    Py_x_mu->Fill(_e->Py_x_mu());
-    Pz_x_mu->Fill(_e->Pz_x_mu());
-    diff_E_P_x_mu->Fill(_e->E_x_mu() - _e->P_x_mu());
-    mom_vs_E_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
-    if ((_e->E_x_mu() > 0.0) && (_e->E_x_mu() > 0.0)) mom_pos_vs_E_pos_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
+  //  if (abs(_e->E_x_mu()) < 0.1) {
 
-    diff_theta_in_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
-  }
+  E_x_mu_hist->Fill(_e->E_x_mu());
+  P_x_mu->Fill(_e->P_x_mu());
+  Px_x_mu->Fill(_e->Px_x_mu());
+  Py_x_mu->Fill(_e->Py_x_mu());
+  Pz_x_mu->Fill(_e->Pz_x_mu());
+
+  diff_E2_P2_x_mu->Fill(_e->M2_x_mu());
+  diff_E_P_x_mu->Fill(_e->M_x_mu());
+  mom_vs_E_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
+  if ((_e->E_x_mu() > 0.0) && (_e->E_x_mu() > 0.0)) mom_pos_vs_E_pos_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
+
+  diff_theta_in_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
+  //}
 }
 
 void Histogram::Write_SF() {
@@ -234,8 +237,11 @@ void Histogram::Write_SF() {
   EI_P_PCAL_P->SetYTitle("Etot/P");
   EI_P_PCAL_P->Write();
 
-  E_x_mu->SetXTitle("Energy comp (GeV)");
-  E_x_mu->Write();
+  E_x_mu_hist->Fit("gaus", "QMR+", "QMR+", -0.45, 0.55);
+  //  gROOT->SetStyle("Plain");
+  gStyle->SetOptFit(1111);
+  E_x_mu_hist->SetXTitle("Energy comp (GeV)");
+  E_x_mu_hist->Write();
 
   P_x_mu->SetXTitle("Momentum (GeV)");
   P_x_mu->Write();
@@ -246,7 +252,9 @@ void Histogram::Write_SF() {
   Pz_x_mu->SetXTitle("Pz (GeV)");
   Pz_x_mu->Write();
 
-  diff_E_P_x_mu->SetXTitle("diif (E-P_mag) (GeV)");
+  diff_E2_P2_x_mu->SetXTitle("diif (E2-P2) (GeV)");
+  diff_E2_P2_x_mu->Write();
+  diff_E_P_x_mu->SetXTitle("diif (E-P) (GeV)");
   diff_E_P_x_mu->Write();
 
   diff_theta_in_x_mu->SetXTitle("theta_x_mu - theta_beam");

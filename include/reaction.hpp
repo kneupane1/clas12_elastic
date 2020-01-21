@@ -53,6 +53,8 @@ class Reaction {
   float _x_mu_Py = NAN;
   float _x_mu_Pz = NAN;
 
+  float _x_mu_m = NAN;
+  float _x_mu_m2 = NAN;
   float _x_mu_P = NAN;
   float _x_mu_E = NAN;
   float _x_mu_theta = NAN;
@@ -82,6 +84,8 @@ class Reaction {
   float Px_x_mu();
   float Py_x_mu();
   float Pz_x_mu();
+  float M_x_mu();
+  float M2_x_mu();
 
   inline float W() { return _W; }
   inline float Q2() { return _Q2; }
