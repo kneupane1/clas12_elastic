@@ -97,7 +97,7 @@ class Histogram {
   TH1D_ptr diff_theta_in_x_mu = std::make_shared<TH1D>("diff#theta x_mu and initial electron",
                                                        "diff#theta x_mu and initial electron", 500, -5.0, 180);
   TH1D_ptr diff_theta_ph_x_mu = std::make_shared<TH1D>("diff#theta x_mu and initial electron ph",
-                                                       "diff#theta x_mu and initial electron ph", 500, -0.0, 180);
+                                                       "diff#theta x_mu and initial electron ph", 500, 0.0, 180);
   TH1D_ptr diff_theta_elec_x_mu = std::make_shared<TH1D>("diff#theta x_mu and scattering_electron",
                                                          "diff#theta x_mu and scatt_electron", 500, -50.0, 180);
   TH1D_ptr diff_theta_elec_ph_x_mu =
