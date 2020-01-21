@@ -87,15 +87,6 @@ void Reaction::CalcMissMass() {
     _MM = _x_mu->M();
     _MM2 = _x_mu->M2();
 
-    // std::cout << "_elec Px " << _elec->Px() << '\n';
-    // std::cout << "_elec Py " << _elec->Py() << '\n';
-    // std::cout << "_elec Pz " << _elec->Pz() << '\n';
-    // std::cout << "_elec E " << _elec->E() << '\n';
-    //
-    // for (auto& _p : _pos) std::cout << "_p Px " << _p->Px() << '\n';
-    // for (auto& _p : _pos) std::cout << "_p Py " << _p->Py() << '\n';
-    // for (auto& _p : _pos) std::cout << "_p Pz " << _p->Pz() << '\n';
-    // for (auto& _p : _pos) std::cout << "_p E " << _p->E() << '\n';
     _x_mu_E = _x_mu->E();
     _x_mu_P = _x_mu->P();
     _x_mu_Px = _x_mu->Px();
@@ -104,8 +95,8 @@ void Reaction::CalcMissMass() {
 
     _x_mu_theta = _x_mu->Theta() * RAD2DEG;
 
-    _x_mu_m2 = _x_mu_E * _x_mu_E - _x_mu_P * _x_mu_P;
-    _x_mu_m = _x_mu_E - _x_mu_P;
+    _x_mu_m2 = _x_mu_E() * _x_mu_E() - _x_mu_P() * _x_mu_P();
+    _x_mu_m = _x_mu_E() - _x_mu_P();
 
     //  _x_mu->SetPxPyPzE(mm->Px(), mm->Py(), mm->Pz(), mm->E());
     //(*_gamma + *_target - *_positive);

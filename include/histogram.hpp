@@ -85,7 +85,7 @@ class Histogram {
   TH1D_ptr Pz_x_mu = std::make_shared<TH1D>("Pz (x_mu = e(p,p')e')", "Pz (x_mu = e(p,p')e')", 500, -1.0, 11.0);
 
   TH1D_ptr diff_E_P_x_mu =
-      std::make_shared<TH1D>("Energy-Mom(x_mu = e(p,p')e')", " (Energy-Mom) of (x_mu = e(p,p')e')", 500, 0.0, 3.5);
+      std::make_shared<TH1D>("Energy-Mom(x_mu = e(p,p')e')", " (Energy-Mom) of (x_mu = e(p,p')e')", 500, -1.0, 1.0);
 
   TH1D_ptr diff_E2_P2_x_mu =
       std::make_shared<TH1D>("Energy2-Mom2(x_mu = e(p,p')e')", " (Energy2-Mom2) of (x_mu = e(p,p')e')", 500, -1.0, 1.5);

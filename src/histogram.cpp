@@ -216,12 +216,11 @@ void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
 
   diff_theta_in_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
   diff_theta_elec_x_mu->Fill(-_e->theta_elec() + _e->theta_x_mu());
-  if (_e->E_x_mu() != 0 && _e->P_x_mu() != 0 &&
-      (abs(_e->E_x_mu() * _e->E_x_mu() - _e->P_x_mu() * _e->P_x_mu()) < 0.05)) {
+  if (_e->E_x_mu() != 0 && _e->P_x_mu() != 0 && M2_x_mu() < 0.05) {
     E_x_mu_ph_hist->Fill(_e->E_x_mu());
     mom_pos_vs_E_pos_x_mu->Fill(abs(_e->E_x_mu()), _e->P_x_mu());
     diff_theta_ph_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
-    diff_theta_elec_ph_x_mu->Fill(-_e->theta_elec() + _e->theta_x_mu());
+    diff_theta_elec_ph_x_mu->Fill(_e->theta_elec() - _e->theta_x_mu());
   }
   //}
 }
