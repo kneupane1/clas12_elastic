@@ -203,26 +203,26 @@ void Histogram::FillHists_electron_with_cuts(const std::shared_ptr<Branches12>& 
 }
 void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
   //  if (abs(_e->E_x_mu()) < 0.1) {
+  if (_e->onePositive_at180()) {
+    E_x_mu_hist->Fill(_e->E_x_mu());
+    P_x_mu->Fill(_e->P_x_mu());
+    Px_x_mu->Fill(_e->Px_x_mu());
+    Py_x_mu->Fill(_e->Py_x_mu());
+    Pz_x_mu->Fill(_e->Pz_x_mu());
 
-  E_x_mu_hist->Fill(_e->E_x_mu());
-  P_x_mu->Fill(_e->P_x_mu());
-  Px_x_mu->Fill(_e->Px_x_mu());
-  Py_x_mu->Fill(_e->Py_x_mu());
-  Pz_x_mu->Fill(_e->Pz_x_mu());
+    diff_E2_P2_x_mu->Fill(_e->M2_x_mu());
+    diff_E_P_x_mu->Fill(_e->M_x_mu());
+    mom_vs_E_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
 
-  diff_E2_P2_x_mu->Fill(_e->M2_x_mu());
-  diff_E_P_x_mu->Fill(_e->M_x_mu());
-  mom_vs_E_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
-
-  diff_theta_in_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
-  diff_theta_elec_x_mu->Fill(-_e->theta_elec() + _e->theta_x_mu());
-  if (_e->E_x_mu() != 0 && _e->P_x_mu() != 0 && _e->M2_x_mu() < 0.05) {
-    E_x_mu_ph_hist->Fill(_e->E_x_mu());
-    mom_pos_vs_E_pos_x_mu->Fill(abs(_e->E_x_mu()), _e->P_x_mu());
-    diff_theta_ph_x_mu->Fill(_e->theta_beam() - _e->theta_x_mu());
-    diff_theta_elec_ph_x_mu->Fill(_e->theta_elec() - _e->theta_x_mu());
+    diff_theta_in_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
+    diff_theta_elec_x_mu->Fill(-_e->theta_elec() + _e->theta_x_mu());
+    if (_e->E_x_mu() != 0 && _e->P_x_mu() != 0 && _e->M2_x_mu() < 0.05) {
+      E_x_mu_ph_hist->Fill(_e->E_x_mu());
+      mom_pos_vs_E_pos_x_mu->Fill(abs(_e->E_x_mu()), _e->P_x_mu());
+      diff_theta_ph_x_mu->Fill(_e->theta_beam() - _e->theta_x_mu());
+      diff_theta_elec_ph_x_mu->Fill(_e->theta_elec() - _e->theta_x_mu());
+    }
   }
-  //}
 }
 
 void Histogram::Write_SF() {
