@@ -65,6 +65,10 @@ class Histogram {
   static const short NUM_CUT = 2;
   static const int W_BINS = 35;
   // for loop le array create garna sakinchha?
+  static const short NUM_CONDITIONS = 6;
+  std::string NUM_CONDITIONS_NAME[NUM_CONDITIONS] = {"onePositive ",        " onePositive_at180",
+                                                     "noOther_onePositive", " at180_MM0_onePositive_",
+                                                     "E2_P2_Condition",     "higher_then_800 MeV"};
 
   std::string W_BINS_NAME[W_BINS] = {"0.0-0.3", "0.3-0.6", "0.6=0.9", "0.9-1.2", "1.2-1.5", "1.5-1.8",  "1.8-2.1",
                                      "2.1-2.4", "2.4-2.7", "2.7-3.0", "3.0-3.3", "3.3-3.6", "3.6-3.9",  "3.9-4.2",
@@ -74,36 +78,21 @@ class Histogram {
 
   TH2D_ptr sf_hist = std::make_shared<TH2D>("SF", "SF", 500, 0, 10.5, 500, 0, 0.5);
   TH2D_ptr EI_P_PCAL_P = std::make_shared<TH2D>("EI/P VS PCAL/P", "EI/P VS PCAL/P", 500, 0, 0.35, 500, 0, 0.35);
-  TH1D_ptr E_x_mu_hist =
-      std::make_shared<TH1D>("Energy (x_mu = e(p,p')e')", "Energy (x_mu = e(p,p')e')", 500, -2.0, 11.0);
-
-  TH1D_ptr E_x_mu_ph_hist =
-      std::make_shared<TH1D>("Energy_photon(x_mu = e(p,p')e')", "Energy_photon (x_mu = e(p,p')e')", 500, -2.0, 11.0);
   TH1D_ptr P_x_mu = std::make_shared<TH1D>("mom (x_mu = e(p,p')e')", "mom (x_mu = e(p,p')e')", 500, -0.50, 11.0);
   TH1D_ptr Px_x_mu = std::make_shared<TH1D>("Px (x_mu = e(p,p')e')", "Px (x_mu = e(p,p')e')", 500, -0.50, 2.0);
   TH1D_ptr Py_x_mu = std::make_shared<TH1D>("Py (x_mu = e(p,p')e')", "Py (x_mu = e(p,p')e')", 500, -0.50, 2.0);
   TH1D_ptr Pz_x_mu = std::make_shared<TH1D>("Pz (x_mu = e(p,p')e')", "Pz (x_mu = e(p,p')e')", 500, -1.0, 11.0);
 
-  TH1D_ptr diff_E_P_x_mu =
-      std::make_shared<TH1D>("Energy-Mom(x_mu = e(p,p')e')", " (Energy-Mom) of (x_mu = e(p,p')e')", 500, -1.0, 1.0);
-
-  TH1D_ptr diff_E2_P2_x_mu =
-      std::make_shared<TH1D>("Energy2-Mom2(x_mu = e(p,p')e')", " (Energy2-Mom2) of (x_mu = e(p,p')e')", 500, -1.0, 1.5);
-  TH2D_ptr mom_vs_E_x_mu =
-      std::make_shared<TH2D>("Mom_vs_Energy", " Mom_vs_Energy_component", 500, -1.0, 3.0, 500, 0.0, 3.0);
-
-  TH2D_ptr mom_pos_vs_E_pos_x_mu =
-      std::make_shared<TH2D>("Mom_vs_Energy_pos", " Mom_vs_Energy_component_", 500, -1.0, 3.0, 500, 0.0, 3.0);
   TH1D_ptr diff_theta_in_x_mu = std::make_shared<TH1D>("diff#theta x_mu and initial electron",
                                                        "diff#theta x_mu and initial electron", 500, -5.0, 180);
   TH1D_ptr diff_theta_ph_x_mu = std::make_shared<TH1D>("diff#theta x_mu and initial electron ph",
                                                        "diff#theta x_mu and initial electron ph", 500, 0.0, 180);
-  TH1D_ptr diff_theta_elec_x_mu = std::make_shared<TH1D>("diff#theta x_mu and scattering_electron",
-                                                         "diff#theta x_mu and scatt_electron", 500, -150.0, 50);
-  TH1D_ptr diff_theta_elec_ph_x_mu =
-      std::make_shared<TH1D>("diff#theta x_mu and scatt_ph", "diff#theta x_mu and scatt_ph_", 500, -150.0, 50);
-  TH2D_ptr Dthtea_vs_Dphi =
-      std::make_shared<TH2D>("#Del#theta vs #Del#phi", "#Delata#Theta vs #Delata#Phi", 500, -180, 180, 500, -180, 180);
+
+  TH1D_ptr E_x_mu_hist[NUM_CONDITIONS];
+  TH1D_ptr diff_E2_P2_x_mu_hist[NUM_CONDITIONS];
+  TH1D_ptr diff_E_P_x_mu_hist[NUM_CONDITIONS];
+  TH2D_ptr mom_vs_E_x_mu_hist[NUM_CONDITIONS];
+  TH1D_ptr diff_theta_elec_x_mu_hist[NUM_CONDITIONS];
 
   TH1D_ptr vz_position[NUM_CUT];
   TH2D_ptr pcal_sec[NUM_CUT];
@@ -158,7 +147,9 @@ class Histogram {
   void Fill_SF(const std::shared_ptr<Branches12>& _d);
   void write_histSf();
   void Write_SF();
+  void makeHists_x_mu();
   void Fill_x_mu(const std::shared_ptr<Reaction>& _e);
+  void write_hist_x_mu();
 
   // P and E
   void Fill_MomVsBeta(const std::shared_ptr<Reaction>& _e);

@@ -77,9 +77,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
         event->SetOther(part);
       }
     }
-    if (event->onePositive_at180()) {
-      _hists->Fill_x_mu(event);
-    }
+    // if (event->onePositive_at180()) {
+    _hists->Fill_x_mu(event);
+    //  }
     _hists->Fill_pi0(event);
     if (event->onePositive_at180_MM0()) {
       total++;

@@ -13,6 +13,7 @@ Histogram::Histogram(const std::string& output_file) {
   Nsparce = std::make_shared<THnSparseD>("nsparce", "nsparce", 3, sparce_bins, sparce_xmin, sparce_xmax);
   makeHists_electron_cuts();
   makeHistSF();
+  makeHists_x_mu();
 }
 
 Histogram::~Histogram() { this->Write(); }
@@ -40,7 +41,10 @@ void Histogram::Write() {
   TDirectory* histSf = RootOutputFile->mkdir("sampling_fraction");
   histSf->cd();
   write_histSf();
-
+  std::cerr << BOLDBLUE << "write_hist_x_mu()" << DEF << std::endl;
+  TDirectory* hists_x_mu = RootOutputFile->mkdir("hists_x_mu");
+  hists_x_mu->cd();
+  write_hist_x_mu();
   std::cout << BOLDBLUE << "Done Writing!!!" << DEF << std::endl;
 }
 
@@ -201,30 +205,97 @@ void Histogram::FillHists_electron_with_cuts(const std::shared_ptr<Branches12>& 
   dcr3_sec[after_cut]->Fill(_d->dc_r3_x(0), _d->dc_r3_y(0));
   EC_sampling_fraction[after_cut]->Fill(_d->p(0), _d->ec_tot_energy(0) / _d->p(0));
 }
+
+void Histogram::makeHists_x_mu() {
+  for (short i = 0; i < NUM_CONDITIONS; i++) {
+    E_x_mu_hist[i] = std::make_shared<TH1D>(Form("E_x_mu_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
+                                            Form("E_x_mu %1.12s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -2.0, 11.0);
+    diff_E2_P2_x_mu_hist[i] =
+        std::make_shared<TH1D>(Form("diff_E2_P2_x_mu_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
+                               Form("diff_E2_P2_x_mu %1.12s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -1.0, 1.5);
+    diff_E_P_x_mu_hist[i] =
+        std::make_shared<TH1D>(Form("diff_E_P_x_mu_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
+                               Form("diff_E_P_x_mu %1.12s)", NUM_CONDITIONS_NAME[i].c_str()), bins, -1.0, 1.5);
+    mom_vs_E_x_mu_hist[i] = std::make_shared<TH2D>(Form("mom_vs_E_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
+                                                   Form("mom_vs_E %1.12s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -1.0,
+                                                   3.0, bins, 0.0, 3.0);
+
+    diff_theta_elec_x_mu_hist[i] = std::make_shared<TH1D>(
+        Form("diff_theta_elec_x_mu_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
+        Form("diff_theta_elec_x_mu %1.12s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -50.0, 180.0);
+  }
+}
 void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
-  //  if (abs(_e->E_x_mu()) < 0.1) {
-  if (_e->onePositive_at180()) {
-    E_x_mu_hist->Fill(_e->E_x_mu());
-    P_x_mu->Fill(_e->P_x_mu());
-    Px_x_mu->Fill(_e->Px_x_mu());
-    Py_x_mu->Fill(_e->Py_x_mu());
-    Pz_x_mu->Fill(_e->Pz_x_mu());
-
-    diff_E2_P2_x_mu->Fill(_e->M2_x_mu());
-    diff_E_P_x_mu->Fill(_e->M_x_mu());
-    mom_vs_E_x_mu->Fill(_e->E_x_mu(), _e->P_x_mu());
-
+  if (_e->onePositive()) {
     diff_theta_in_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
-    diff_theta_elec_x_mu->Fill(_e->theta_elec() - _e->theta_x_mu());
-    if (_e->E_x_mu() != 0 && _e->P_x_mu() != 0 && _e->M2_x_mu() < 0.05) {
-      E_x_mu_ph_hist->Fill(_e->E_x_mu());
-      mom_pos_vs_E_pos_x_mu->Fill(abs(_e->E_x_mu()), _e->P_x_mu());
-      diff_theta_ph_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
-      diff_theta_elec_ph_x_mu->Fill(_e->theta_elec() - _e->theta_x_mu());
+    E_x_mu_hist[0]->Fill(_e->E_x_mu());
+    diff_E2_P2_x_mu_hist[0]->Fill(_e->M2_x_mu());
+    diff_E_P_x_mu_hist[0]->Fill(_e->M_x_mu());
+    mom_vs_E_x_mu_hist[0]->Fill(_e->E_x_mu(), _e->P_x_mu());
+    diff_theta_elec_x_mu_hist[0]->Fill(_e->theta_elec() - _e->theta_x_mu());
+  }
+
+  if (_e->onePositive_at180()) {
+    E_x_mu_hist[1]->Fill(_e->E_x_mu());
+    diff_E2_P2_x_mu_hist[1]->Fill(_e->M2_x_mu());
+    diff_E_P_x_mu_hist[1]->Fill(_e->M_x_mu());
+    mom_vs_E_x_mu_hist[1]->Fill(_e->E_x_mu(), _e->P_x_mu());
+    diff_theta_elec_x_mu_hist[1]->Fill(_e->theta_elec() - _e->theta_x_mu());
+  }
+
+  if (_e->onePositive_noOther()) {
+    E_x_mu_hist[2]->Fill(_e->E_x_mu());
+    diff_E2_P2_x_mu_hist[2]->Fill(_e->M2_x_mu());
+    diff_E_P_x_mu_hist[2]->Fill(_e->M_x_mu());
+    mom_vs_E_x_mu_hist[2]->Fill(_e->E_x_mu(), _e->P_x_mu());
+    diff_theta_elec_x_mu_hist[2]->Fill(_e->theta_elec() - _e->theta_x_mu());
+  }
+  if (_e->onePositive_at180_MM0()) {
+    E_x_mu_hist[3]->Fill(_e->E_x_mu());
+    diff_E2_P2_x_mu_hist[3]->Fill(_e->M2_x_mu());
+    diff_E_P_x_mu_hist[3]->Fill(_e->M_x_mu());
+    mom_vs_E_x_mu_hist[3]->Fill(_e->E_x_mu(), _e->P_x_mu());
+    diff_theta_elec_x_mu_hist[3]->Fill(_e->theta_elec() - _e->theta_x_mu());
+    if (abs(_e->E_x_mu() * _e->E_x_mu()) > 0.05 && abs(_e->P_x_mu() * _e->P_x_mu()) > 0.05 && _e->M2_x_mu() < 0.1) {
+      E_x_mu_hist[4]->Fill(_e->E_x_mu());
+      diff_E2_P2_x_mu_hist[4]->Fill(_e->M2_x_mu());
+      diff_E_P_x_mu_hist[4]->Fill(_e->M_x_mu());
+      mom_vs_E_x_mu_hist[4]->Fill(_e->E_x_mu(), _e->P_x_mu());
+      diff_theta_elec_x_mu_hist[4]->Fill(_e->theta_elec() - _e->theta_x_mu());
+      if (_e->E_x_mu() > 0.8) {
+        E_x_mu_hist[5]->Fill(_e->E_x_mu());
+        diff_E2_P2_x_mu_hist[5]->Fill(_e->M2_x_mu());
+        diff_E_P_x_mu_hist[5]->Fill(_e->M_x_mu());
+        mom_vs_E_x_mu_hist[5]->Fill(_e->E_x_mu(), _e->P_x_mu());
+        diff_theta_elec_x_mu_hist[5]->Fill(_e->theta_elec() - _e->theta_x_mu());
+        P_x_mu->Fill(_e->P_x_mu());
+        Px_x_mu->Fill(_e->Px_x_mu());
+        Py_x_mu->Fill(_e->Py_x_mu());
+        Pz_x_mu->Fill(_e->Pz_x_mu());
+        diff_theta_ph_x_mu->Fill(-_e->theta_beam() + _e->theta_x_mu());
+      }
     }
   }
 }
-
+void Histogram::write_hist_x_mu() {
+  for (short i; i < NUM_CONDITIONS; i++) {
+    E_x_mu_hist[i]->Fit("gaus", "QMR+", "QMR+", -0.45, 0.38);
+    //  gROOT->SetStyle("Plain");
+    gStyle->SetOptFit(1111);
+    E_x_mu_hist[i]->SetXTitle("Energy comp (GeV)");
+    E_x_mu_hist[i]->Write();
+    diff_E2_P2_x_mu_hist[i]->SetXTitle("E2-P2 (GeV)");
+    diff_E2_P2_x_mu_hist[i]->Write();
+    diff_E_P_x_mu_hist[i]->SetXTitle("E-P (GeV)");
+    diff_E_P_x_mu_hist[i]->Write();
+    mom_vs_E_x_mu_hist[i]->SetXTitle("Energy (GeV)");
+    mom_vs_E_x_mu_hist[i]->SetYTitle("Mom (GeV)");
+    mom_vs_E_x_mu_hist[i]->SetOption("COLZ");
+    mom_vs_E_x_mu_hist[i]->Write();
+    diff_theta_elec_x_mu_hist[i]->SetXTitle("theta (deg)");
+    diff_theta_elec_x_mu_hist[i]->Write();
+  }
+}
 void Histogram::Write_SF() {
   sf_hist->SetOption("COLZ");
   sf_hist->Write();
@@ -243,14 +314,6 @@ void Histogram::Write_SF() {
   EI_P_PCAL_P->SetYTitle("Etot/P");
   EI_P_PCAL_P->Write();
 
-  E_x_mu_hist->Fit("gaus", "QMR+", "QMR+", -0.45, 0.38);
-  //  gROOT->SetStyle("Plain");
-  gStyle->SetOptFit(1111);
-  E_x_mu_hist->SetXTitle("Energy comp (GeV)");
-  E_x_mu_hist->Write();
-
-  E_x_mu_ph_hist->SetXTitle("Energy comp (GeV)");
-  E_x_mu_ph_hist->Write();
   P_x_mu->SetXTitle("Momentum (GeV)");
   P_x_mu->Write();
   Px_x_mu->SetXTitle("Px (GeV)");
@@ -259,37 +322,15 @@ void Histogram::Write_SF() {
   Py_x_mu->Write();
   Pz_x_mu->SetXTitle("Pz (GeV)");
   Pz_x_mu->Write();
-
-  diff_E2_P2_x_mu->SetXTitle("diif (E2-P2) (GeV)");
-  diff_E2_P2_x_mu->Write();
-  diff_E_P_x_mu->SetXTitle("diif (E-P) (GeV)");
-  diff_E_P_x_mu->Write();
-
-  diff_theta_in_x_mu->SetXTitle("theta_x_mu - theta_beam");
-  diff_theta_in_x_mu->Write();
-  diff_theta_ph_x_mu->SetXTitle("theta_x_mu - theta_beam");
+  diff_theta_ph_x_mu->SetXTitle("theta_diff (deg)");
+  diff_theta_in_x_mu->SetXTitle("theta_diff (deg)");
   diff_theta_ph_x_mu->Write();
+  diff_theta_in_x_mu->Write();
 
-  diff_theta_elec_x_mu->SetXTitle("theta_x_mu - theta_elec_scattering");
-  diff_theta_elec_x_mu->Write();
-
-  diff_theta_elec_ph_x_mu->SetXTitle("theta_x_mu - theta_elec_ph");
-  diff_theta_elec_ph_x_mu->Write();
-
-  mom_vs_E_x_mu->SetXTitle("E comp (GeV)");
-  mom_vs_E_x_mu->SetYTitle("P comp (GeV)");
-  mom_vs_E_x_mu->SetOption("COLZ");
-  mom_vs_E_x_mu->Write();
-
-  mom_pos_vs_E_pos_x_mu->SetXTitle("E comp (GeV)");
-  mom_pos_vs_E_pos_x_mu->SetYTitle("P comp (GeV)");
-  mom_pos_vs_E_pos_x_mu->SetOption("COLZ");
-  mom_pos_vs_E_pos_x_mu->Write();
-
-  Dthtea_vs_Dphi->SetXTitle("#Delata#Theta (deg)");
-  Dthtea_vs_Dphi->SetYTitle("#Delata#Phi (deg)");
-  Dthtea_vs_Dphi->SetOption("COLZ");
-  Dthtea_vs_Dphi->Write();
+  // Dthtea_vs_Dphi->SetXTitle("#Delata#Theta (deg)");
+  // Dthtea_vs_Dphi->SetYTitle("#Delata#Phi (deg)");
+  // Dthtea_vs_Dphi->SetOption("COLZ");
+  // Dthtea_vs_Dphi->Write();
 }
 void Histogram::write_histSf() {
   for (size_t i = 0; i < W_BINS; i++) {
