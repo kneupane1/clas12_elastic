@@ -27,7 +27,7 @@ class Reaction {
   std::vector<std::unique_ptr<TLorentzVector>> _other;
   std::vector<std::shared_ptr<TLorentzVector>> _photons;
 
-  std::unique_ptr<TLorentzVector> _x_mu;
+  // std::unique_ptr<TLorentzVector> _x_mu;
 
   bool _hasE = false;
   bool _hasPos = false;

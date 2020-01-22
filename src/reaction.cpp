@@ -14,7 +14,7 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _gamma = std::make_unique<TLorentzVector>();
   _target = std::make_unique<TLorentzVector>(0.0, 0.0, 0.0, MASS_P);
   _elec = std::make_unique<TLorentzVector>();
-  _x_mu = std::make_unique<TLorentzVector>();
+  //  _x_mu = std::make_unique<TLorentzVector>();
 
   this->SetElec();
 }
@@ -78,7 +78,8 @@ void Reaction::SetOther(int i) {
 
 void Reaction::CalcMissMass() {
   if (_pos.size() > 0) {
-    //  auto mm = std::make_unique<TLorentzVector>();
+    auto _x_mu = std::make_unique<TLorentzVector>();
+    //      auto mm = std::make_unique<TLorentzVector>();
     //  *mm += (*_gamma + *_target);
 
     *_x_mu += (*_gamma + *_target);
