@@ -96,7 +96,7 @@ void Reaction::CalcMissMass() {
 
     _x_mu_theta = _x_mu->Theta() * RAD2DEG;
 
-    _x_mu_m2 = _x_mu->E() * _x_mu->E() - _x_mu->P() * _x_mu->P();
+    _x_mu_m2 = _x_mu->M2();
     _x_mu_m = _x_mu->M();
 
     //  _x_mu->SetPxPyPzE(mm->Px(), mm->Py(), mm->Pz(), mm->E());
