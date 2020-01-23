@@ -138,7 +138,7 @@ class Reaction {
   inline bool onePositive() { return (_hasE && _hasPos && _pos.size() == 1); }
   inline bool onePositive_noOther() { return (onePositive() && _other.size() == 0); }
   inline bool onePositive_MM0() { return (onePositive_noOther() && MM_cut()); }
-  inline bool onePositive_at180() { return (onePositive_noOther() && phi_diff_180()); }
+  inline bool onePositive_at180() { return (/*onePositive_noOther() &&*/ phi_diff_180()); }
   inline bool onePositive_at180_MM0() { return (onePositive_at180() && MM_cut()); }
 };
 

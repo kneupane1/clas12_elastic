@@ -208,28 +208,28 @@ void Histogram::FillHists_electron_with_cuts(const std::shared_ptr<Branches12>& 
 
 void Histogram::makeHists_x_mu() {
   for (short i = 0; i < NUM_CONDITIONS; i++) {
-    E_x_mu_hist[i] = std::make_shared<TH1D>(Form("E_x_mu_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
-                                            Form("E_x_mu %1.12s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -2.0, 11.0);
+    E_x_mu_hist[i] = std::make_shared<TH1D>(Form("E_x_mu_ %12.20s ", NUM_CONDITIONS_NAME[i].c_str()),
+                                            Form("E_x_mu %12.20s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -2.0, 11.0);
     diff_E2_P2_x_mu_hist[i] =
-        std::make_shared<TH1D>(Form("diff_E2_P2_x_mu_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
-                               Form("diff_E2_P2_x_mu %1.12s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -1.0, 1.5);
+        std::make_shared<TH1D>(Form("diff_E2_P2_x_mu_ %12.20s ", NUM_CONDITIONS_NAME[i].c_str()),
+                               Form("diff_E2_P2_x_mu %12.20s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -1.0, 1.5);
     diff_E_P_x_mu_hist[i] =
-        std::make_shared<TH1D>(Form("diff_E_P_x_mu_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
-                               Form("diff_E_P_x_mu %1.12s)", NUM_CONDITIONS_NAME[i].c_str()), bins, -1.0, 1.5);
-    mom_vs_E_x_mu_hist[i] = std::make_shared<TH2D>(Form("mom_vs_E_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
-                                                   Form("mom_vs_E %1.12s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -1.0,
-                                                   3.0, bins, 0.0, 3.0);
+        std::make_shared<TH1D>(Form("diff_E_P_x_mu_ %12.20s ", NUM_CONDITIONS_NAME[i].c_str()),
+                               Form("diff_E_P_x_mu %12.20s)", NUM_CONDITIONS_NAME[i].c_str()), bins, -1.0, 1.5);
+    mom_vs_E_x_mu_hist[i] = std::make_shared<TH2D>(Form("mom_vs_E_ %12.20s ", NUM_CONDITIONS_NAME[i].c_str()),
+                                                   Form("mom_vs_E %12.20s ", NUM_CONDITIONS_NAME[i].c_str()), bins,
+                                                   -1.0, 3.0, bins, 0.0, 3.0);
 
     theta_elec_hist[i] =
-        std::make_shared<TH1D>(Form("theta_elec_scattering_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
-                               Form("theta_elec_scattering %1.12s ", NUM_CONDITIONS_NAME[i].c_str()), bins, 0.0, 50.0);
+        std::make_shared<TH1D>(Form("theta_elec_scattering_ %12.20s ", NUM_CONDITIONS_NAME[i].c_str()),
+                               Form("theta_elec_scattering %12.20s ", NUM_CONDITIONS_NAME[i].c_str()), bins, 0.0, 50.0);
     theta_x_mu_hist[i] =
-        std::make_shared<TH1D>(Form("theta_x_mu_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
-                               Form("theta_x_mu %1.12s ", NUM_CONDITIONS_NAME[i].c_str()), bins, 0.0, 180.0);
+        std::make_shared<TH1D>(Form("theta_x_mu_ %12.20s ", NUM_CONDITIONS_NAME[i].c_str()),
+                               Form("theta_x_mu %12.20s ", NUM_CONDITIONS_NAME[i].c_str()), bins, 0.0, 180.0);
 
     diff_theta_elec_x_mu_hist[i] = std::make_shared<TH1D>(
-        Form("diff_theta_elec_x_mu_ %1.12s ", NUM_CONDITIONS_NAME[i].c_str()),
-        Form("diff_theta_elec_x_mu %1.12s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -50.0, 180.0);
+        Form("diff_theta_elec_x_mu_ %12.20s ", NUM_CONDITIONS_NAME[i].c_str()),
+        Form("diff_theta_elec_x_mu %12.20s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -50.0, 180.0);
   }
 }
 void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
