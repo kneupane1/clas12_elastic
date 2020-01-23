@@ -66,7 +66,7 @@ class Histogram {
   static const int W_BINS = 35;
   // for loop le array create garna sakinchha?
   static const short NUM_CONDITIONS = 6;
-  std::string NUM_CONDITIONS_NAME[NUM_CONDITIONS] = {"onePos ",           " onePo_at180",    "noOther_onePos",
+  std::string NUM_CONDITIONS_NAME[NUM_CONDITIONS] = {"onePos ",           "noOther_onePos",  " onePos_at180",
                                                      " at180_MM0_onePos", "E2_P2_Condition", "higher_then_800 MeV"};
 
   std::string W_BINS_NAME[W_BINS] = {"0.0-0.3", "0.3-0.6", "0.6=0.9", "0.9-1.2", "1.2-1.5", "1.5-1.8",  "1.8-2.1",
@@ -91,6 +91,8 @@ class Histogram {
   TH1D_ptr diff_E2_P2_x_mu_hist[NUM_CONDITIONS];
   TH1D_ptr diff_E_P_x_mu_hist[NUM_CONDITIONS];
   TH2D_ptr mom_vs_E_x_mu_hist[NUM_CONDITIONS];
+  TH1D_ptr theta_elec_hist[NUM_CONDITIONS];
+  TH1D_ptr theta_x_mu_hist[NUM_CONDITIONS];
   TH1D_ptr diff_theta_elec_x_mu_hist[NUM_CONDITIONS];
 
   TH1D_ptr vz_position[NUM_CUT];

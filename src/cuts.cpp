@@ -108,9 +108,9 @@ bool Cuts::IsPositive(int i) {
   if (_data->gpart() <= i) return false;
   bool _pos = true;
   _pos &= (_data->charge(i) == POSITIVE);
-  _pos &= _data->pid(i) == PROTON;
+  //  _pos &= _data->pid(i) == PROTON;
   //_proton = (_data->p(i) > 1.0);
-  if (!std::isnan(_dt->dt_P(i))) _pos &= (abs(_dt->dt_P(i)) < 0.5);
+  // if (!std::isnan(_dt->dt_P(i))) _pos &= (abs(_dt->dt_P(i)) < 0.5);
   // if (!std::isnan(_dt->dt_ctof_P(i))) _proton &= (abs(_dt->dt_ctof_P(i)) < 0.2);
   return _pos;
 }
@@ -127,9 +127,9 @@ bool Cuts::IsProton(int i) {
   bool _proton = true;
   _proton &= (_data->charge(i) == POSITIVE);
   _proton &= _data->pid(i) == PROTON;
-  //_proton = (_data->p(i) > 1.0);
+  _proton = (_data->p(i) > 1.0);
   if (!std::isnan(_dt->dt_P(i))) _proton &= (abs(_dt->dt_P(i)) < 0.5);
-  // if (!std::isnan(_dt->dt_ctof_P(i))) _proton &= (abs(_dt->dt_ctof_P(i)) < 0.2);
+  if (!std::isnan(_dt->dt_ctof_P(i))) _proton &= (abs(_dt->dt_ctof_P(i)) < 0.2);
   return _proton;
 }
 bool Cuts::IsPim(int i) {
