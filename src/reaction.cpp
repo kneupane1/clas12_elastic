@@ -14,6 +14,7 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _gamma = std::make_unique<TLorentzVector>();
   _target = std::make_unique<TLorentzVector>(0.0, 0.0, 0.0, MASS_P);
   _elec = std::make_unique<TLorentzVector>();
+  _pip = std::make_unique<TLorentzVector>();
   //  _x_mu = std::make_unique<TLorentzVector>();
 
   this->SetElec();
@@ -40,6 +41,13 @@ void Reaction::SetPositive(int i) {
   _pos_det.push_back(abs(_data->status(i) / 1000));
   _pos.push_back(std::make_unique<TLorentzVector>());
   _pos.back()->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
+}
+
+void Reaction::SetPip(int i) {
+  _numPip++;
+  _numPos++;
+  _hasPip = true;
+  _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
 }
 
 bool Reaction::PosStats() {
@@ -77,7 +85,7 @@ void Reaction::SetOther(int i) {
 }
 
 void Reaction::CalcMissMass() {
-  if (_pos.size() > 0) {
+  if (_pos.size() > 0 && NPip()) {
     auto _x_mu = std::make_unique<TLorentzVector>();
     //      auto mm = std::make_unique<TLorentzVector>();
     //  *mm += (*_gamma + *_target);

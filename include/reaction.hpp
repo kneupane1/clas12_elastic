@@ -23,6 +23,8 @@ class Reaction {
   std::unique_ptr<TLorentzVector> _gamma;
   std::unique_ptr<TLorentzVector> _target;
   std::unique_ptr<TLorentzVector> _prot = nullptr;
+  std::unique_ptr<TLorentzVector> _pip;
+
   std::vector<std::unique_ptr<TLorentzVector>> _pos;
   std::vector<std::unique_ptr<TLorentzVector>> _other;
   std::vector<std::shared_ptr<TLorentzVector>> _photons;
@@ -32,11 +34,13 @@ class Reaction {
   bool _hasE = false;
   bool _hasPos = false;
   bool _hasOther = false;
+  bool _hasPip = false;
 
   short _numPos = 0;
   short _numNeg = 0;
   short _numNeutral = 0;
   short _numOther = 0;
+  short _numPip = 0;
 
   std::vector<float> _pos_beta;
   std::vector<short> _pos_det;
@@ -70,6 +74,8 @@ class Reaction {
 
   bool PosStats();
   void SetPositive(int i);
+  void SetPip(int i);
+
   void SetOther(int i);
 
   void CalcMissMass();
@@ -134,12 +140,13 @@ class Reaction {
     return false;
   }
   inline bool MM_cut() { return abs(MM2()) < MM2_cut; }
-
   inline bool onePositive() { return (_hasE && _hasPos && _pos.size() == 1); }
   inline bool onePositive_noOther() { return (onePositive() && _other.size() == 0); }
   inline bool onePositive_MM0() { return (onePositive_noOther() && MM_cut()); }
   inline bool onePositive_at180() { return (/*onePositive_noOther() &&*/ phi_diff_180()); }
   inline bool onePositive_at180_MM0() { return (onePositive_at180() && MM_cut()); }
+
+  inline bool NPip() { return (_hasE && _hasPip && _pos.size() > 0); }
 };
 
 #endif

@@ -55,7 +55,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
     if (data->charge(0) == NEGATIVE) {
       _hists->FillHists_electron_cuts(data);
-      _hists->Fill_SF(data);
+      //  _hists->Fill_SF(data);
     }
 
     auto dt = std::make_shared<Delta_T>(data);
@@ -73,12 +73,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
       if (cuts->IsProton(part)) {
         event->SetPositive(part);
         _hists->Fill_Dt(dt, part);
+      } else if (cuts->IsPip(part)) {
+        event->SetPip(part);
       } else {
         event->SetOther(part);
       }
     }
     // if (event->onePositive_at180()) {
-    _hists->Fill_x_mu(event);
+    //  _hists->Fill_x_mu(event);
     //  }
     _hists->Fill_pi0(event);
     if (event->onePositive_at180_MM0()) {
@@ -86,8 +88,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
       _hists->Fill_Sparce(event);
       //_hists->Fill_x_mu(event);
     }
+    // if (event->NPip()) {
     _hists->Fill_WvsQ2(event);
     _hists->Fill_MomVsBeta(event);
+    //}
   }
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
   // Return the total number of events

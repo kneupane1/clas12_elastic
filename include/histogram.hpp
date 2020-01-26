@@ -63,17 +63,17 @@ class Histogram {
   double sparce_xmax[NUM_DIM] = {w_max, q2_max, 6};
 
   static const short NUM_CUT = 2;
-  static const int W_BINS = 35;
+  // static const int W_BINS = 35;
   // for loop le array create garna sakinchha?
   static const short NUM_CONDITIONS = 6;
   std::string NUM_CONDITIONS_NAME[NUM_CONDITIONS] = {"onePositive ",      "noOther_onePos",  " onePos_at180",
-                                                     " at180_MM0_onePos", "E2_P2_Condition", "higher_then_800 MeV"};
+                                                     " at180_MM0_onePos", "E2_P2_Condition", "higher_then_200 MeV"};
 
-  std::string W_BINS_NAME[W_BINS] = {"0.0-0.3", "0.3-0.6", "0.6=0.9", "0.9-1.2", "1.2-1.5", "1.5-1.8",  "1.8-2.1",
-                                     "2.1-2.4", "2.4-2.7", "2.7-3.0", "3.0-3.3", "3.3-3.6", "3.6-3.9",  "3.9-4.2",
-                                     "4.2-4.5", "4.5-4.8", "4.8-5.1", "5.1-5.4", "5.4-5.7", "5.7-6.0",  " 6.0-6.3",
-                                     "6.3-6.6", "6.6-6.9", "6.9-7.2", "7.2-7.5", "7.5-7.8", "7.8-8.1",  "8.1-8.4",
-                                     "8.4-8.7", "8.7-9.0", "9.0-9.3", "9.3-9.6", "9.6-9.9", "9.9-10.2", "10.2-10.5"};
+  // std::string W_BINS_NAME[W_BINS] = {"0.0-0.3", "0.3-0.6", "0.6=0.9", "0.9-1.2", "1.2-1.5", "1.5-1.8",  "1.8-2.1",
+  //                                    "2.1-2.4", "2.4-2.7", "2.7-3.0", "3.0-3.3", "3.3-3.6", "3.6-3.9",  "3.9-4.2",
+  //                                    "4.2-4.5", "4.5-4.8", "4.8-5.1", "5.1-5.4", "5.4-5.7", "5.7-6.0",  " 6.0-6.3",
+  //                                    "6.3-6.6", "6.6-6.9", "6.9-7.2", "7.2-7.5", "7.5-7.8", "7.8-8.1",  "8.1-8.4",
+  //                                    "8.4-8.7", "8.7-9.0", "9.0-9.3", "9.3-9.6", "9.6-9.9", "9.9-10.2", "10.2-10.5"};
 
   TH2D_ptr sf_hist = std::make_shared<TH2D>("SF", "SF", 500, 0, 10.5, 500, 0, 0.5);
   TH2D_ptr EI_P_PCAL_P = std::make_shared<TH2D>("EI/P VS PCAL/P", "EI/P VS PCAL/P", 500, 0, 0.35, 500, 0, 0.35);
@@ -86,6 +86,8 @@ class Histogram {
                                                        "diff#theta x_mu and initial electron", 500, -5.0, 180);
   TH1D_ptr diff_theta_ph_x_mu = std::make_shared<TH1D>("diff#theta x_mu and initial electron ph",
                                                        "diff#theta x_mu and initial electron ph", 500, 0.0, 180);
+
+  TH1D_ptr W_hist_NPip = std::make_shared<TH1D>("W_hist_NPip", "W_hist_NPip", 500, p_min, w_max);
 
   TH1D_ptr E_x_mu_hist[NUM_CONDITIONS];
   TH1D_ptr diff_E2_P2_x_mu_hist[NUM_CONDITIONS];
@@ -102,9 +104,9 @@ class Histogram {
   TH2D_ptr dcr3_sec[NUM_CUT];
   TH2D_ptr EC_sampling_fraction[NUM_CUT];
   // SF 1D
-  TH1D_ptr SF_1D[W_BINS];
-  TGraph_ptr SF_gr_upper;
-  TGraph_ptr SF_gr_lower;
+  // TH1D_ptr SF_1D[W_BINS];
+  // TGraph_ptr SF_gr_upper;
+  // TGraph_ptr SF_gr_lower;
   // Kinematics
   TH1D_ptr W_hist_all_events[NUM_SECTORS];
   TH1D_ptr W_hist_1pos[NUM_SECTORS];
