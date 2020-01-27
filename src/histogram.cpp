@@ -418,7 +418,7 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction>& _e) {
         if (_e->NPip()) {
                 MM_hist_NPip_before_cut->Fill(_e->MM());
                 MM2_hist_NPip_before_cut->Fill(_e->MM2());
-                if (0.7 <_e->MM2()&& _e->MM2()<1.0) {
+                if (0.7 <_e->MM2()&& _e->MM2()<1.1) {
                         MM_hist_NPip->Fill(_e->MM());
                         MM2_hist_NPip->Fill(_e->MM2());
                         W_hist_all_events[all_sectors]->Fill(_e->W());
@@ -554,8 +554,8 @@ void Histogram::Write_WvsQ2() {
 
                 mass_pi0_hist[after_cut][i] -> SetXTitle("MM(GeV)");
                 mass_pi0_hist[after_cut][i] -> Write();
-                W_hist_all_events[i] -> Fit("gaus", "QMR+", "QMR+", 0.8, 1.1);
-                gStyle->SetOptFit(1111);
+                //W_hist_all_events[i] -> Fit("gaus", "QMR+", "QMR+", 0.8, 1.1);
+                //gStyle->SetOptFit(1111);
                 W_hist_all_events[i] -> SetXTitle("W (GeV)");
                 W_hist_all_events[i] -> Write();
                 W_hist_1pos[i] -> SetXTitle("W (GeV)");
