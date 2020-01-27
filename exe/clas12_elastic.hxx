@@ -62,9 +62,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
     auto cuts = std::make_shared<Cuts>(data, dt);
     if (!cuts->ElectronCuts()) continue;
     //_hists->Fill_SF(data);
-    _hists->FillHists_electron_with_cuts(data);
-
-    _hists->Fill_Dt(dt);
+    //  _hists->FillHists_electron_with_cuts(data);
+    //_hists->Fill_Dt(dt);
 
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
@@ -88,10 +87,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
       _hists->Fill_Sparce(event);
       //_hists->Fill_x_mu(event);
     }
-    // if (event->NPip()) {
-    _hists->Fill_WvsQ2(event);
-    _hists->Fill_MomVsBeta(event);
-    //}
+    if (event->NPip()) {
+      _hists->Fill_WvsQ2(event);
+      _hists->Fill_MomVsBeta(event);
+      _hists->FillHists_electron_with_cuts(data);
+      _hists->Fill_Dt(dt);
+    }
   }
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
   // Return the total number of events
