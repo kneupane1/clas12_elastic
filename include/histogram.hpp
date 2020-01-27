@@ -106,6 +106,9 @@ TH2D_ptr dcr1_sec[NUM_CUT];
 TH2D_ptr dcr2_sec[NUM_CUT];
 TH2D_ptr dcr3_sec[NUM_CUT];
 TH2D_ptr EC_sampling_fraction[NUM_CUT];
+
+TH1D_ptr W_hist_NPip_events[NUM_SECTORS];
+TH1D_ptr MM2_hist_NPip_events[NUM_SECTORS];
 // SF 1D
 // TH1D_ptr SF_1D[W_BINS];
 // TGraph_ptr SF_gr_upper;
@@ -148,11 +151,11 @@ void makeHists();
 void Fill_WvsQ2(const std::shared_ptr<Reaction>& _e);
 void Write_WvsQ2();
 // sampling Fraction
-void makeHistSF();
-void populate_SF(const std::shared_ptr<Branches12>& _d, double min, double max, int index_sf);
-void Fill_SF(const std::shared_ptr<Branches12>& _d);
-void write_histSf();
-void Write_SF();
+//void makeHistSF();
+//void populate_SF(const std::shared_ptr<Branches12>& _d, double min, double max, int index_sf);
+//void Fill_SF(const std::shared_ptr<Branches12>& _d);
+//void write_histSf();
+//void Write_SF();
 void makeHists_x_mu();
 void Fill_x_mu(const std::shared_ptr<Reaction>& _e);
 void write_hist_x_mu();
