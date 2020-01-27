@@ -45,7 +45,6 @@ void Reaction::SetPositive(int i) {
 
 void Reaction::SetPip(int i) {
   _numPip++;
-  _numPip++;
   _numPos++;
   _hasPip = true;
   _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);

@@ -146,7 +146,8 @@ class Reaction {
   inline bool onePositive_at180() { return (/*onePositive_noOther() &&*/ phi_diff_180()); }
   inline bool onePositive_at180_MM0() { return (onePositive_at180() && MM_cut()); }
 
-  inline bool NPip() { return (_hasE && _hasPip/* && _numPip == 1*/); }
+  inline bool NPip() { return (_hasE && _hasPip && _numPip == 1); }
+
 };
 
 #endif
