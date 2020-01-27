@@ -413,69 +413,76 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction>& _e) {
   short sec = _e->sec();
   short pos_det = _e->pos_det();
   //  if ((sec > 0 && sec < NUM_SECTORS) || pos_det != -1) {
-  //  if (_e->NPip()) {
-  W_hist_all_events[all_sectors]->Fill(_e->W());
-  W_vs_q2_all_events[all_sectors]->Fill(_e->W(), _e->Q2());
-  W_hist_all_events[sec]->Fill(_e->W());
-  W_vs_q2_all_events[sec]->Fill(_e->W(), _e->Q2());
+  if (_e->NPip()) {
+    MM_hist_NPip->Fill(_e->MM());
+    MM2_hist_NPip->Fill(_e->MM2());
+    // if (MM2<)
+    W_hist_all_events[all_sectors]->Fill(_e->W());
+    W_vs_q2_all_events[all_sectors]->Fill(_e->W(), _e->Q2());
+    W_hist_all_events[sec]->Fill(_e->W());
+    W_vs_q2_all_events[sec]->Fill(_e->W(), _e->Q2());
 
-  if (_e->onePositive()) {
-    W_hist_1pos[all_sectors]->Fill(_e->W());
-    W_vs_q2_1pos[all_sectors]->Fill(_e->W(), _e->Q2());
-    W_hist_1pos[sec]->Fill(_e->W());
-    W_vs_q2_1pos[sec]->Fill(_e->W(), _e->Q2());
+    if (_e->onePositive()) {
+      W_hist_1pos[all_sectors]->Fill(_e->W());
+      W_vs_q2_1pos[all_sectors]->Fill(_e->W(), _e->Q2());
+      W_hist_1pos[sec]->Fill(_e->W());
+      W_vs_q2_1pos[sec]->Fill(_e->W(), _e->Q2());
 
-    Phie_vs_Phip[both_detectors][all_sectors]->Fill(_e->phi_e(), _e->phi_p());
-    Phie_Phip_hist[both_detectors][all_sectors]->Fill(_e->phi_diff());
-    Phie_vs_Phip[both_detectors][sec]->Fill(_e->phi_e(), _e->phi_p());
-    Phie_Phip_hist[both_detectors][sec]->Fill(_e->phi_diff());
+      Phie_vs_Phip[both_detectors][all_sectors]->Fill(_e->phi_e(), _e->phi_p());
+      Phie_Phip_hist[both_detectors][all_sectors]->Fill(_e->phi_diff());
+      Phie_vs_Phip[both_detectors][sec]->Fill(_e->phi_e(), _e->phi_p());
+      Phie_Phip_hist[both_detectors][sec]->Fill(_e->phi_diff());
 
-    Phie_vs_Phip[pos_det][all_sectors]->Fill(_e->phi_e(), _e->phi_p());
-    Phie_Phip_hist[pos_det][all_sectors]->Fill(_e->phi_diff());
-    Phie_vs_Phip[pos_det][sec]->Fill(_e->phi_e(), _e->phi_p());
-    Phie_Phip_hist[pos_det][sec]->Fill(_e->phi_diff());
+      Phie_vs_Phip[pos_det][all_sectors]->Fill(_e->phi_e(), _e->phi_p());
+      Phie_Phip_hist[pos_det][all_sectors]->Fill(_e->phi_diff());
+      Phie_vs_Phip[pos_det][sec]->Fill(_e->phi_e(), _e->phi_p());
+      Phie_Phip_hist[pos_det][sec]->Fill(_e->phi_diff());
+    }
+    if (_e->onePositive_MM0()) {
+      W_hist_1pos_0charge[all_sectors]->Fill(_e->W());
+      W_vs_q2_1pos_0charge[all_sectors]->Fill(_e->W(), _e->Q2());
+      W_hist_1pos_0charge[sec]->Fill(_e->W());
+      W_vs_q2_1pos_0charge[sec]->Fill(_e->W(), _e->Q2());
+    }
+    if (_e->onePositive_noOther()) {
+      W_hist_1pos_noOther[all_sectors]->Fill(_e->W());
+      W_vs_q2_1pos_noOther[all_sectors]->Fill(_e->W(), _e->Q2());
+      W_hist_1pos_noOther[sec]->Fill(_e->W());
+      W_vs_q2_1pos_noOther[sec]->Fill(_e->W(), _e->Q2());
+    }
+    if (_e->onePositive_at180()) {
+      MissingMass[all_sectors]->Fill(_e->MM2());
+      MissingMass[sec]->Fill(_e->MM2());
+
+      W_hist_1pos_at180[both_detectors][all_sectors]->Fill(_e->W());
+      W_vs_q2_1pos_at180[both_detectors][all_sectors]->Fill(_e->W(), _e->Q2());
+      W_hist_1pos_at180[both_detectors][sec]->Fill(_e->W());
+      W_vs_q2_1pos_at180[both_detectors][sec]->Fill(_e->W(), _e->Q2());
+
+      W_hist_1pos_at180[pos_det][all_sectors]->Fill(_e->W());
+      W_vs_q2_1pos_at180[pos_det][all_sectors]->Fill(_e->W(), _e->Q2());
+      W_hist_1pos_at180[pos_det][sec]->Fill(_e->W());
+      W_vs_q2_1pos_at180[pos_det][sec]->Fill(_e->W(), _e->Q2());
+    }
+    if (_e->onePositive_at180_MM0()) {
+      W_hist_1pos_at180_MM[both_detectors][all_sectors]->Fill(_e->W());
+      W_vs_q2_1pos_at180_MM[both_detectors][all_sectors]->Fill(_e->W(), _e->Q2());
+      W_hist_1pos_at180_MM[both_detectors][sec]->Fill(_e->W());
+      W_vs_q2_1pos_at180_MM[both_detectors][sec]->Fill(_e->W(), _e->Q2());
+
+      W_hist_1pos_at180_MM[pos_det][all_sectors]->Fill(_e->W());
+      W_vs_q2_1pos_at180_MM[pos_det][all_sectors]->Fill(_e->W(), _e->Q2());
+      W_hist_1pos_at180_MM[pos_det][sec]->Fill(_e->W());
+      W_vs_q2_1pos_at180_MM[pos_det][sec]->Fill(_e->W(), _e->Q2());
+    }
   }
-  if (_e->onePositive_MM0()) {
-    W_hist_1pos_0charge[all_sectors]->Fill(_e->W());
-    W_vs_q2_1pos_0charge[all_sectors]->Fill(_e->W(), _e->Q2());
-    W_hist_1pos_0charge[sec]->Fill(_e->W());
-    W_vs_q2_1pos_0charge[sec]->Fill(_e->W(), _e->Q2());
-  }
-  if (_e->onePositive_noOther()) {
-    W_hist_1pos_noOther[all_sectors]->Fill(_e->W());
-    W_vs_q2_1pos_noOther[all_sectors]->Fill(_e->W(), _e->Q2());
-    W_hist_1pos_noOther[sec]->Fill(_e->W());
-    W_vs_q2_1pos_noOther[sec]->Fill(_e->W(), _e->Q2());
-  }
-  if (_e->onePositive_at180()) {
-    MissingMass[all_sectors]->Fill(_e->MM2());
-    MissingMass[sec]->Fill(_e->MM2());
-
-    W_hist_1pos_at180[both_detectors][all_sectors]->Fill(_e->W());
-    W_vs_q2_1pos_at180[both_detectors][all_sectors]->Fill(_e->W(), _e->Q2());
-    W_hist_1pos_at180[both_detectors][sec]->Fill(_e->W());
-    W_vs_q2_1pos_at180[both_detectors][sec]->Fill(_e->W(), _e->Q2());
-
-    W_hist_1pos_at180[pos_det][all_sectors]->Fill(_e->W());
-    W_vs_q2_1pos_at180[pos_det][all_sectors]->Fill(_e->W(), _e->Q2());
-    W_hist_1pos_at180[pos_det][sec]->Fill(_e->W());
-    W_vs_q2_1pos_at180[pos_det][sec]->Fill(_e->W(), _e->Q2());
-  }
-  if (_e->onePositive_at180_MM0()) {
-    W_hist_1pos_at180_MM[both_detectors][all_sectors]->Fill(_e->W());
-    W_vs_q2_1pos_at180_MM[both_detectors][all_sectors]->Fill(_e->W(), _e->Q2());
-    W_hist_1pos_at180_MM[both_detectors][sec]->Fill(_e->W());
-    W_vs_q2_1pos_at180_MM[both_detectors][sec]->Fill(_e->W(), _e->Q2());
-
-    W_hist_1pos_at180_MM[pos_det][all_sectors]->Fill(_e->W());
-    W_vs_q2_1pos_at180_MM[pos_det][all_sectors]->Fill(_e->W(), _e->Q2());
-    W_hist_1pos_at180_MM[pos_det][sec]->Fill(_e->W());
-    W_vs_q2_1pos_at180_MM[pos_det][sec]->Fill(_e->W(), _e->Q2());
-  }
-  //}
 }
 
 void Histogram::Write_WvsQ2() {
+  MM_hist_NPip->SetXTitle("MM (GeV)");
+  MM_hist_NPip->Write();
+  MM2_hist_NPip->SetXTitle("MM2 (GeV)");
+  MM2_hist_NPip->Write();
   TDirectory* phi_folder = RootOutputFile->mkdir("Phi");
   phi_folder->cd();
   for (short j = 0; j < detector_name.size(); j++) {

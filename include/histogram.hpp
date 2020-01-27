@@ -87,7 +87,8 @@ class Histogram {
   TH1D_ptr diff_theta_ph_x_mu = std::make_shared<TH1D>("diff#theta x_mu and initial electron ph",
                                                        "diff#theta x_mu and initial electron ph", 500, 0.0, 180);
 
-  TH1D_ptr W_hist_NPip = std::make_shared<TH1D>("W_hist_NPip", "W_hist_NPip", 500, p_min, w_max);
+  TH1D_ptr MM_hist_NPip = std::make_shared<TH1D>("MM_hist_NPip", "MM_hist_NPip", 500, p_min, w_max);
+  TH1D_ptr MM2_hist_NPip = std::make_shared<TH1D>("MM2_hist_NPip", "MM_hist_NPip", 500, p_min, w_max);
 
   TH1D_ptr E_x_mu_hist[NUM_CONDITIONS];
   TH1D_ptr diff_E2_P2_x_mu_hist[NUM_CONDITIONS];

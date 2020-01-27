@@ -45,6 +45,7 @@ void Reaction::SetPositive(int i) {
 
 void Reaction::SetPip(int i) {
   _numPip++;
+  _numPip++;
   _numPos++;
   _hasPip = true;
   _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
@@ -85,14 +86,15 @@ void Reaction::SetOther(int i) {
 }
 
 void Reaction::CalcMissMass() {
-  if (_pos.size() > 0 && NPip()) {
+  if (NPip()) {
     auto _x_mu = std::make_unique<TLorentzVector>();
     //      auto mm = std::make_unique<TLorentzVector>();
     //  *mm += (*_gamma + *_target);
 
     *_x_mu += (*_gamma + *_target);
     // for (auto& _p : _photons) *mm -= *_p;
-    for (auto& _p : _pos) *_x_mu -= *_p;
+    //  for (auto& _p : _pos) *_x_mu -= *_p;
+    *_x_mu -= *_pip;
     _MM = _x_mu->M();
     _MM2 = _x_mu->M2();
 
