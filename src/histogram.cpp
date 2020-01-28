@@ -82,6 +82,19 @@ void Histogram::makeHists() {
         // SF_gr_lower = std::make_shared<TGraph>(30, P_e, SF_lower);
 
         for (short sec = 0; sec < NUM_SECTORS; sec++) {
+
+                E_vs_theta_e_all_events[sec] =
+                        std::make_shared<TH2D>(Form("E_vs_theta_e_all_events_%d", sec), Form("E_vs_theta_e_all_events_%d", sec), bins, zero, p_max, bins, zero, 180.0);
+                E_vs_theta_e_elastic_events[sec] =
+                        std::make_shared<TH2D>(Form("E_vs_theta_e_elastic_events_%d", sec), Form("E_vs_theta_e_elastic_events_%d", sec), bins, zero, p_max, bins, zero, 180.0);
+                E_vs_theta_e_2nd_reso_events[sec] =
+                        std::make_shared<TH2D>(Form("E_vs_theta_e_2nd_resonance_region_%d", sec), Form("E_vs_theta_e_2nd_resonance_region_%d", sec), bins, zero, p_max, bins, zero, 180.0);
+                E_vs_theta_e_3rd_reso_events[sec] =
+                        std::make_shared<TH2D>(Form("E_vs_theta_e_3rd_resonance_region_%d", sec), Form("E_vs_theta_e_3rd_resonance_region_%d", sec), bins, zero, p_max, bins, zero, 180.0);
+
+                W_hist_NPip_before_mmsq_cut_events[sec] =
+                        std::make_shared<TH1D>(Form("W_hist_NPip_events_sec_%d", sec), Form("W_hist_NPip_events_sec_%d", sec), bins, zero, w_max);
+
                 W_hist_NPip_events[sec] =
                         std::make_shared<TH1D>(Form("W_hist_NPip_sec_%d", sec), Form("W_hist_NPip_sec_%d", sec), bins, 0.0, w_max);
                 MM2_hist_NPip_events[sec] =
@@ -433,7 +446,13 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction>& _e) {
         short sec = _e->sec();
         short pos_det = _e->pos_det();
         if ((sec > 0 && sec < NUM_SECTORS) || pos_det != -1) {
+                E_vs_theta_e_all_events[all_sectors]->Fill(_e->theta_elec(),_e->E_elec());
+                E_vs_theta_e_all_events[sec]->Fill(_e->theta_elec(),_e->E_elec());
+
+
                 if (_e->NPip()) {
+                        W_hist_NPip_before_mmsq_cut_events[all_sectors]->Fill(_e->W());
+                        W_hist_NPip_before_mmsq_cut_events[sec]->Fill(_e->W());
                         MM2_hist_NPip_events[all_sectors]->Fill(_e->MM2_NPip());
                         MM2_hist_NPip_events[sec]->Fill(_e->MM2_NPip());
                         MM_hist_NPip_before_cut->Fill(_e->MM_NPip());
@@ -443,6 +462,12 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction>& _e) {
                                 W_hist_NPip_events[sec]->Fill(_e->W());
                                 MM_hist_NPip->Fill(_e->MM_NPip());
                                 MM2_hist_NPip->Fill(_e->MM2_NPip());
+
+                                if (_e->W()>1.44 && _e->W()<1.58) {E_vs_theta_e_2nd_reso_events[all_sectors]->Fill(_e->theta_elec(),_e->E_elec());
+                                                                   E_vs_theta_e_2nd_reso_events[sec]->Fill(_e->theta_elec(),_e->E_elec());}
+                                else if (_e->W()>1.64 && _e->W()<1.73) {E_vs_theta_e_3rd_reso_events[all_sectors]->Fill(_e->theta_elec(),_e->E_elec());
+                                                                        E_vs_theta_e_3rd_reso_events[sec]->Fill(_e->theta_elec(),_e->E_elec());}
+
                         }
                 }
                 W_hist_all_events[all_sectors]->Fill(_e->W());
@@ -501,6 +526,9 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction>& _e) {
                         W_vs_q2_1pos_at180_MM[pos_det][all_sectors]->Fill(_e->W(), _e->Q2());
                         W_hist_1pos_at180_MM[pos_det][sec]->Fill(_e->W());
                         W_vs_q2_1pos_at180_MM[pos_det][sec]->Fill(_e->W(), _e->Q2());
+
+                        E_vs_theta_e_elastic_events[all_sectors]->Fill(_e->theta_elec(),_e->E_elec());
+                        E_vs_theta_e_elastic_events[sec]->Fill(_e->theta_elec(),_e->E_elec());
                 }
         }
 }
@@ -611,17 +639,44 @@ void Histogram::Write_WvsQ2() {
         delete W_vs_Q2_folder;
 
         // NPip I added
+        TDirectory* NPip_folder = RootOutputFile->mkdir("NPip");
+        NPip_folder->cd();
         auto W_NPip_can = std::make_unique<TCanvas>("W NPip_can", "W NPip sectors", 1920, 1080);
         W_NPip_can->Divide(4, 2);
         for (short i = 0; i < NUM_SECTORS; i ++) {
                 W_hist_NPip_events[i] -> Fit("gaus", "QMR+", "QMR+", 1.44, 1.58);
+                gStyle->SetOptFit(1111);
                 W_hist_NPip_events[i] -> Fit("gaus", "QMR+", "QMR+", 1.64, 1.73);
                 gStyle->SetOptFit(1111);
-
                 W_hist_NPip_events[i] -> SetXTitle("W (GeV)");
                 W_hist_NPip_events[i] -> Write();
                 W_NPip_can->cd(i + 1);
                 W_hist_NPip_events[i] -> Draw("same");
+                W_NPip_can->cd(i + 1);
+                W_hist_NPip_events[i] -> Draw("same");
+
+                W_hist_NPip_before_mmsq_cut_events[i] -> SetXTitle("W (GeV)");
+                W_hist_NPip_before_mmsq_cut_events[i] -> Write();
+
+
+
+                E_vs_theta_e_all_events[i] -> SetXTitle("theta (deg)");
+                E_vs_theta_e_all_events[i] -> SetYTitle("E' (GeV)");
+                E_vs_theta_e_all_events[i] -> SetOption("COLZ");
+                E_vs_theta_e_all_events[i] -> Write();
+
+                E_vs_theta_e_elastic_events[i] -> SetXTitle("theta (deg)");
+                E_vs_theta_e_elastic_events[i] -> SetYTitle("E' (GeV)");
+                E_vs_theta_e_elastic_events[i] -> SetOption("COLZ");
+                E_vs_theta_e_elastic_events[i] -> Write();
+                E_vs_theta_e_2nd_reso_events[i] -> SetXTitle("theta (deg)");
+                E_vs_theta_e_2nd_reso_events[i] -> SetYTitle("E' (GeV)");
+                E_vs_theta_e_2nd_reso_events[i] -> SetOption("COLZ");
+                E_vs_theta_e_2nd_reso_events[i] -> Write();
+                E_vs_theta_e_3rd_reso_events[i] -> SetXTitle("theta (deg)");
+                E_vs_theta_e_3rd_reso_events[i] -> SetYTitle("E' (GeV)");
+                E_vs_theta_e_3rd_reso_events[i] -> SetOption("COLZ");
+                E_vs_theta_e_3rd_reso_events[i] -> Write();
         }
         W_NPip_can->Write();
 
@@ -634,6 +689,8 @@ void Histogram::Write_WvsQ2() {
                 MM2_hist_NPip_events[i] -> Draw("same");
         }
         MM2_NPip_can->Write();
+        NPip_folder->Write();
+        delete NPip_folder;
 }
 
 void Histogram::Fill_MomVsBeta(const std::shared_ptr<Reaction>& _e) {
