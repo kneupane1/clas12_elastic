@@ -235,6 +235,10 @@ void Histogram::makeHists_x_mu() {
     diff_theta_elec_x_mu_hist[i] = std::make_shared<TH1D>(
         Form("diff_theta_elec_x_mu_ %12.20s ", NUM_CONDITIONS_NAME[i].c_str()),
         Form("diff_theta_elec_x_mu %12.20s ", NUM_CONDITIONS_NAME[i].c_str()), bins, -50.0, 180.0);
+
+    MM2_VS_W_x_mu_hist[i] = std::make_shared<TH2D>(Form("MM2_vs_W_ %12.20s ", NUM_CONDITIONS_NAME[i].c_str()),
+                                                   Form("MM2_vs_W %12.20s ", NUM_CONDITIONS_NAME[i].c_str()), bins, 0.0,
+                                                   w_max, bins, -0.2, 1.0);
   }
 }
 void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
@@ -247,6 +251,7 @@ void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
     diff_E_P_x_mu_hist[0]->Fill(_e->M_x_mu());
     mom_vs_E_x_mu_hist[0]->Fill(_e->E_x_mu(), _e->P_x_mu());
     diff_theta_elec_x_mu_hist[0]->Fill(_e->theta_x_mu() - _e->theta_elec());
+    MM2_VS_W_x_mu_hist[0]->Fill(_e->M2_x_mu(), _e->W());
   }
 
   if (_e->onePositive_noOther()) {
@@ -257,6 +262,7 @@ void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
     theta_x_mu_hist[1]->Fill(_e->theta_x_mu());
     theta_elec_hist[1]->Fill(_e->theta_elec());
     diff_theta_elec_x_mu_hist[1]->Fill(_e->theta_x_mu() - _e->theta_elec());
+    MM2_VS_W_x_mu_hist[1]->Fill(_e->M2_x_mu(), _e->W());
   }
 
   if (_e->onePositive_at180()) {
@@ -267,6 +273,7 @@ void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
     theta_x_mu_hist[2]->Fill(_e->theta_x_mu());
     theta_elec_hist[2]->Fill(_e->theta_elec());
     diff_theta_elec_x_mu_hist[2]->Fill(_e->theta_x_mu() - _e->theta_elec());
+    MM2_VS_W_x_mu_hist[2]->Fill(_e->M2_x_mu(), _e->W());
   }
   //  if (abs(_e->M2_x_mu()) < 0.05) {
   if (_e->onePositive_at180_MM0()) {
@@ -277,6 +284,7 @@ void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
     theta_x_mu_hist[3]->Fill(_e->theta_x_mu());
     theta_elec_hist[3]->Fill(_e->theta_elec());
     diff_theta_elec_x_mu_hist[3]->Fill(_e->theta_x_mu() - _e->theta_elec());
+    MM2_VS_W_x_mu_hist[3]->Fill(_e->M2_x_mu(), _e->W());
 
     if (abs(_e->E_x_mu() * _e->E_x_mu()) > 0.1 && abs(_e->P_x_mu() * _e->P_x_mu()) > 0.1 &&
         (_e->E_x_mu() * _e->E_x_mu() - _e->P_x_mu() * _e->P_x_mu()) < 0.2 && (_e->theta_x_mu() > 4.0)) {
@@ -287,6 +295,7 @@ void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
       theta_elec_hist[4]->Fill(_e->theta_elec());
       theta_x_mu_hist[4]->Fill(_e->theta_x_mu());
       diff_theta_elec_x_mu_hist[4]->Fill(_e->theta_x_mu() - _e->theta_elec());
+      MM2_VS_W_x_mu_hist[4]->Fill(_e->M2_x_mu(), _e->W());
 
       if (_e->E_x_mu() > 0.2) {
         E_x_mu_hist[5]->Fill(_e->E_x_mu());
@@ -296,6 +305,7 @@ void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
         theta_elec_hist[5]->Fill(_e->theta_elec());
         theta_x_mu_hist[5]->Fill(_e->theta_x_mu());
         diff_theta_elec_x_mu_hist[5]->Fill(_e->theta_x_mu() - _e->theta_elec());
+        MM2_VS_W_x_mu_hist[5]->Fill(_e->M2_x_mu(), _e->W());
 
         // P_x_mu->Fill(_e->P_x_mu());
         // Px_x_mu->Fill(_e->Px_x_mu());
@@ -327,6 +337,10 @@ void Histogram::write_hist_x_mu() {
     theta_x_mu_hist[i]->Write();
     diff_theta_elec_x_mu_hist[i]->SetXTitle("theta (deg)");
     diff_theta_elec_x_mu_hist[i]->Write();
+    MM2_VS_W_x_mu_hist[i]->SetXTitle("W (GeV)");
+    MM2_VS_W_x_mu_hist[i]->SetYTitle("MM2 (GeV)");
+    MM2_VS_W_x_mu_hist[i]->SetOption("COLZ");
+    MM2_VS_W_x_mu_hist[i]->Write();
   }
 }
 // void Histogram::Write_SF() {

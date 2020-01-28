@@ -101,6 +101,7 @@ class Histogram {
   TH1D_ptr theta_elec_hist[NUM_CONDITIONS];
   TH1D_ptr theta_x_mu_hist[NUM_CONDITIONS];
   TH1D_ptr diff_theta_elec_x_mu_hist[NUM_CONDITIONS];
+  TH2D_ptr MM2_VS_W_x_mu_hist[NUM_CONDITIONS];
 
   TH1D_ptr vz_position[NUM_CUT];
   TH2D_ptr pcal_sec[NUM_CUT];
