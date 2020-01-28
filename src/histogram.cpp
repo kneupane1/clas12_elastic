@@ -644,56 +644,50 @@ void Histogram::Write_WvsQ2() {
         auto W_NPip_can = std::make_unique<TCanvas>("W NPip_can", "W NPip sectors", 1920, 1080);
         W_NPip_can->Divide(4, 2);
         for (short i = 0; i < NUM_SECTORS; i ++) {
-                TF1 * sqroot = 0;
-                file->GetObject("sqroot",sqroot);
-                if (!sqroot) {
-                        Error("fit1.C","Cannot find object sqroot of type TF1\n");
-                        return;
-                }
-                sqroot->Print();
-                W_hist_NPip_events[i]->Fit("gaus", "QMR+", "QMR+",  1.44, 1.58);
-                W_hist_NPip_events[i]->Fit("gaus","QMR+", "QMR+",  1.64, 1.73);
+
+                W_hist_NPip_events[i] -> Fit("gaus", "QMR+", "QMR+",  1.44, 1.58);
+                W_hist_NPip_events[i] -> Fit("gaus","QMR+", "QMR+",  1.64, 1.73);
                 gStyle->SetOptFit(1111);
                 gStyle->SetOptFit(1111);
-                W_hist_NPip_events[i]->SetXTitle("W (GeV)");
-                W_hist_NPip_events[i]->Write();
+                W_hist_NPip_events[i] -> SetXTitle("W (GeV)");
+                W_hist_NPip_events[i] -> Write();
                 W_NPip_can->cd(i + 1);
-                W_hist_NPip_events[i]->Draw("same");
+                W_hist_NPip_events[i] -> Draw("same");
                 W_NPip_can->cd(i + 1);
-                W_hist_NPip_events[i]->Draw("same");
+                W_hist_NPip_events[i] -> Draw("same");
 
-                W_hist_NPip_before_mmsq_cut_events[i]->SetXTitle("W (GeV)");
-                W_hist_NPip_before_mmsq_cut_events[i]->Write();
+                W_hist_NPip_before_mmsq_cut_events[i] -> SetXTitle("W (GeV)");
+                W_hist_NPip_before_mmsq_cut_events[i] -> Write();
 
-                E_vs_theta_e_all_events[i]->SetXTitle("theta (deg)");
-                E_vs_theta_e_all_events[i]->SetYTitle("E' (GeV)");
-                E_vs_theta_e_all_events[i]->SetOption("COLZ");
-                E_vs_theta_e_all_events[i]->Write();
+                E_vs_theta_e_all_events[i] -> SetXTitle("theta (deg)");
+                E_vs_theta_e_all_events[i] -> SetYTitle("E' (GeV)");
+                E_vs_theta_e_all_events[i] -> SetOption("COLZ");
+                E_vs_theta_e_all_events[i] -> Write();
 
-                E_vs_theta_e_elastic_events[i]->SetXTitle("theta (deg)");
-                E_vs_theta_e_elastic_events[i]->SetYTitle("E' (GeV)");
-                E_vs_theta_e_elastic_events[i]->SetOption("COLZ");
-                E_vs_theta_e_elastic_events[i]->Write();
+                E_vs_theta_e_elastic_events[i] -> SetXTitle("theta (deg)");
+                E_vs_theta_e_elastic_events[i] -> SetYTitle("E' (GeV)");
+                E_vs_theta_e_elastic_events[i] -> SetOption("COLZ");
+                E_vs_theta_e_elastic_events[i] -> Write();
 
-                E_vs_theta_e_2nd_reso_events[i]->SetXTitle("theta (deg)");
-                E_vs_theta_e_2nd_reso_events[i]->SetYTitle("E' (GeV)");
-                E_vs_theta_e_2nd_reso_events[i]->SetOption("COLZ");
-                E_vs_theta_e_2nd_reso_events[i]->Write();
+                E_vs_theta_e_2nd_reso_events[i] -> SetXTitle("theta (deg)");
+                E_vs_theta_e_2nd_reso_events[i] -> SetYTitle("E' (GeV)");
+                E_vs_theta_e_2nd_reso_events[i] -> SetOption("COLZ");
+                E_vs_theta_e_2nd_reso_events[i] -> Write();
 
-                E_vs_theta_e_3rd_reso_events[i]->SetXTitle("theta_ (deg)");
-                E_vs_theta_e_3rd_reso_events[i]->SetYTitle("E' (GeV)");
-                E_vs_theta_e_3rd_reso_events[i]->SetOption("COLZ");
-                E_vs_theta_e_3rd_reso_events[i]->Write();
+                E_vs_theta_e_3rd_reso_events[i] -> SetXTitle("theta_ (deg)");
+                E_vs_theta_e_3rd_reso_events[i] -> SetYTitle("E' (GeV)");
+                E_vs_theta_e_3rd_reso_events[i] -> SetOption("COLZ");
+                E_vs_theta_e_3rd_reso_events[i] -> Write();
         }
         W_NPip_can->Write();
 
         auto MM2_NPip_can = std::make_unique<TCanvas>("MM2 NPip_can", "MM2 NPip sectors", 1920, 1080);
         MM2_NPip_can->Divide(3, 2);
-        for (short i = 0; i < NUM_SECTORS; i++) {
-                MM2_hist_NPip_events[i]->SetXTitle("MM2 (GeV)");
-                MM2_hist_NPip_events[i]->Write();
+        for (short i = 0; i < NUM_SECTORS; i ++) {
+                MM2_hist_NPip_events[i] -> SetXTitle("MM2 (GeV)");
+                MM2_hist_NPip_events[i] -> Write();
                 MM2_NPip_can->cd(i + 1);
-                MM2_hist_NPip_events[i]->Draw("same");
+                MM2_hist_NPip_events[i] -> Draw("same");
         }
         MM2_NPip_can->Write();
         NPip_folder->Write();
