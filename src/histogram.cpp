@@ -616,6 +616,7 @@ void Histogram::Write_WvsQ2() {
         for (short i = 0; i < NUM_SECTORS; i ++) {
                 W_hist_NPip_events[i] -> Fit("gaus", "QMR+", "QMR+", 1.44, 1.58);
                 W_hist_NPip_events[i] -> Fit("gaus", "QMR+", "QMR+", 1.64, 1.73);
+                gStyle->SetOptFit(1111);
 
                 W_hist_NPip_events[i] -> SetXTitle("W (GeV)");
                 W_hist_NPip_events[i] -> Write();
