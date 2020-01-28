@@ -658,14 +658,15 @@ void Histogram::Write_WvsQ2() {
     TF1* g3 = new TF1("g3", "pol2", 1.3, 1.8);
 
     TF1* total = new TF1("gtotal", "gaus(0)+gaus(3)+pol2(6)", 1.3, 1.8);
-    W_hist_NPip_events[i]->Fit(g1, "R");
-    W_hist_NPip_events[i]->Fit(g2, "R+");
-    W_hist_NPip_events[i]->Fit(g3, "R+");
+    W_hist_NPip_events[i]->Fit(g1, "NR");
+    W_hist_NPip_events[i]->Fit(g2, "NR+");
+    W_hist_NPip_events[i]->Fit(g3, "NR+");
     g1->GetParameters(&par[0]);
     g2->GetParameters(&par[3]);
     g3->GetParameters(&par[6]);
     total->SetParameters(par);
-    // W_hist_NPip_events[i]->Fit(total, "R+");
+    W_hist_NPip_events[i]->Fit(total, "R+");
+    g3->Draw("same R+");
     W_hist_NPip_events[i]->SetXTitle("W (GeV)");
     W_hist_NPip_events[i]->Write();
     W_NPip_can->cd(i + 1);
