@@ -48,6 +48,8 @@ class Reaction {
 
   float _MM = NAN;
   float _MM2 = NAN;
+  float _MM_NPip = NAN;
+  float _MM2_NPip = NAN;
   float _pi0_mass = NAN;
 
   float _W = NAN;
@@ -83,6 +85,8 @@ class Reaction {
   float pi0_mass();
   float MM();
   float MM2();
+  float MM_NPip();
+  float MM2_NPip();
 
   float theta_beam();
   float theta_elec();
@@ -147,7 +151,6 @@ class Reaction {
   inline bool onePositive_at180_MM0() { return (onePositive_at180() && MM_cut()); }
 
   inline bool NPip() { return (_hasE && _hasPip && _numPip == 1); }
-
 };
 
 #endif
