@@ -644,10 +644,10 @@ void Histogram::Write_WvsQ2() {
         auto W_NPip_can = std::make_unique<TCanvas>("W NPip_can", "W NPip sectors", 1920, 1080);
         W_NPip_can->Divide(4, 2);
         for (short i = 0; i < NUM_SECTORS; i ++) {
-                W_hist_NPip_events[i] -> Fit(250+"gaus", " ", " ", 1.44, 1.58);
+                W_hist_NPip_events[i] -> Fit("gaus", " ", " ", 1.44, 1.58);
                 W_hist_NPip_events[i] -> Fit("gaus", " ", " ", 1.64, 1.73);
                 //gStyle->SetOptFit(1111);
-                gStyle->SetOptFit(1111);
+                //gStyle->SetOptFit(1111);
                 W_hist_NPip_events[i] -> SetXTitle("W (GeV)");
                 W_hist_NPip_events[i] -> Write();
                 W_NPip_can->cd(i + 1);
