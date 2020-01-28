@@ -84,13 +84,13 @@ void Histogram::makeHists() {
         for (short sec = 0; sec < NUM_SECTORS; sec++) {
 
                 E_vs_theta_e_all_events[sec] =
-                        std::make_shared<TH2D>(Form("E_vs_theta_e_all_events_%d", sec), Form("E_vs_theta_e_all_events_%d", sec), bins, zero,20.0, bins, zero,P_max );
+                        std::make_shared<TH2D>(Form("E_vs_theta_e_all_events_%d", sec), Form("E_vs_theta_e_all_events_%d", sec), bins, zero,40.0, bins, zero,p_max );
                 E_vs_theta_e_elastic_events[sec] =
-                        std::make_shared<TH2D>(Form("E_vs_theta_e_elastic_events_%d", sec), Form("E_vs_theta_e_elastic_events_%d", sec), bins, zero,20.0, bins, zero, p_max);
+                        std::make_shared<TH2D>(Form("E_vs_theta_e_elastic_events_%d", sec), Form("E_vs_theta_e_elastic_events_%d", sec), bins, zero,40.0, bins, zero, p_max);
                 E_vs_theta_e_2nd_reso_events[sec] =
-                        std::make_shared<TH2D>(Form("E_vs_theta_e_2nd_resonance_region_%d", sec), Form("E_vs_theta_e_2nd_resonance_region_%d", sec), bins, zero,20.0, bins, zero, p_max);
+                        std::make_shared<TH2D>(Form("E_vs_theta_e_2nd_resonance_region_%d", sec), Form("E_vs_theta_e_2nd_resonance_region_%d", sec), bins, zero,40.0, bins, zero, p_max);
                 E_vs_theta_e_3rd_reso_events[sec] =
-                        std::make_shared<TH2D>(Form("E_vs_theta_e_3rd_resonance_region_%d", sec), Form("E_vs_theta_e_3rd_resonance_region_%d", sec), bins, zero,20.0, bins, zero, p_max);
+                        std::make_shared<TH2D>(Form("E_vs_theta_e_3rd_resonance_region_%d", sec), Form("E_vs_theta_e_3rd_resonance_region_%d", sec), bins, zero,40.0, bins, zero, p_max);
 
                 W_hist_NPip_before_mmsq_cut_events[sec] =
                         std::make_shared<TH1D>(Form("W_hist_NPip_events_sec_%d", sec), Form("W_hist_NPip_events_sec_%d", sec), bins, zero, w_max);
@@ -644,9 +644,10 @@ void Histogram::Write_WvsQ2() {
         auto W_NPip_can = std::make_unique<TCanvas>("W NPip_can", "W NPip sectors", 1920, 1080);
         W_NPip_can->Divide(4, 2);
         for (short i = 0; i < NUM_SECTORS; i ++) {
-                W_hist_NPip_events[i] -> Fit("gaus", "QMR+", "QMR+", 1.44, 1.58);
+                W_hist_NPip_events[i] -> Fit("gaus", " ", " ", 1.44, 1.58);
+
+                W_hist_NPip_events[i] -> Fit("gaus", " ", " ", 1.64, 1.73);
                 gStyle->SetOptFit(1111);
-                W_hist_NPip_events[i] -> Fit("gaus", "QMR+", "QMR+", 1.64, 1.73);
                 gStyle->SetOptFit(1111);
                 W_hist_NPip_events[i] -> SetXTitle("W (GeV)");
                 W_hist_NPip_events[i] -> Write();
