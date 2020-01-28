@@ -113,6 +113,9 @@ class Histogram {
   // TGraph_ptr SF_gr_upper;
   // TGraph_ptr SF_gr_lower;
   // Kinematics
+  TH1D_ptr W_hist_NPip_events[NUM_SECTORS];
+  TH1D_ptr MM2_hist_NPip_events[NUM_SECTORS];
+
   TH1D_ptr W_hist_all_events[NUM_SECTORS];
   TH1D_ptr W_hist_1pos[NUM_SECTORS];
   TH1D_ptr W_hist_1pos_0charge[NUM_SECTORS];
