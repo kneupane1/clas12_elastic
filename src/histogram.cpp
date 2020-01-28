@@ -422,7 +422,7 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction>& _e) {
       MM2_hist_NPip_events[sec]->Fill(_e->MM2_NPip());
       MM_hist_NPip_before_cut->Fill(_e->MM_NPip());
       MM2_hist_NPip_before_cut->Fill(_e->MM2_NPip());
-      if (0.7 < _e->MM2_NPip() && _e->MM2_NPip() < 1.1) {
+      if (0.8 < _e->MM2_NPip() && _e->MM2_NPip() < 1.0) {
         W_hist_NPip_events[all_sectors]->Fill(_e->W());
         W_hist_NPip_events[sec]->Fill(_e->W());
         MM_hist_NPip->Fill(_e->MM_NPip());
