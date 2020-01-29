@@ -119,7 +119,7 @@ bool Cuts::IsPip(int i) {
   bool _pip = true;
   _pip &= (_data->charge(i) == POSITIVE);
   _pip &= _data->pid(i) == PIP;
-  _pip &= !(abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.2);
+  //_pip &= !(abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.2);
   return _pip;
 }
 
