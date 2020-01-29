@@ -651,8 +651,8 @@ void Histogram::Write_WvsQ2() {
     Double_t par[8];
     TF1* g1 = new TF1("g1", "gaus", 1.44, 1.58);
     TF1* g2 = new TF1("g2", "gaus", 1.64, 1.73);
-    TF1* g3 = new TF1("g3", "pol2", 1.5, 1.9);
-    TF1* total = new TF1("gtotal", "gaus(0)+gaus(3)+pol2(6)", 1.5, 1.9);
+    TF1* g3 = new TF1("g3", "pol2", 1.6, 1.8);
+    TF1* total = new TF1("gtotal", "gaus(0)+gaus(3)+pol2(6)", 1.8, 1.8);
     g1->GetParameters(&par[0]);
     g2->GetParameters(&par[3]);
     g3->GetParameters(&par[6]);
