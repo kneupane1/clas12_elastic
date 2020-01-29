@@ -648,32 +648,39 @@ void Histogram::Write_WvsQ2() {
   for (short i = 0; i < NUM_SECTORS; i++) {
     // W_hist_NPip_events[i]->Fit("gaus", "QMR+", "QMR+", 1.44, 1.58);
     // W_hist_NPip_events[i]->Fit("gaus", "QMR+", "QMR+", 1.64, 1.73);
-    gStyle->SetOptFit(1111);
-    gStyle->SetOptFit(1111);
     Double_t par[8];
     TF1* g1 = new TF1("g1", "gaus", 1.44, 1.58);
-
     TF1* g2 = new TF1("g2", "gaus", 1.64, 1.73);
-
-    TF1* g3 = new TF1("g3", "pol2", 1.3, 1.8);
-
-    TF1* total = new TF1("gtotal", "gaus(0)+gaus(3)+pol2(6)", 1.3, 1.8);
-    W_hist_NPip_events[i]->Fit(g1, "NR");
-    W_hist_NPip_events[i]->Fit(g2, "NR+");
-    W_hist_NPip_events[i]->Fit(g3, "NR+");
+    TF1* g3 = new TF1("g3", "pol2", 1.5, 1.9);
+    TF1* total = new TF1("gtotal", "gaus(0)+gaus(3)+pol2(6)", 1.5, 1.9);
     g1->GetParameters(&par[0]);
     g2->GetParameters(&par[3]);
     g3->GetParameters(&par[6]);
     total->SetParameters(par);
+    // auto fit_can = std::make_unique<TCanvas>("fit_can", "fit can", 1920, 1080);
+    // fit_can->Divide(3, 1);
+    // fit_can->cd(1);
+    // g1->Draw("same");
+    // fit_can->cd(2);
+    // g2->Draw("same");
+    // fit_can->cd(3);
+    // g3->Draw("same");
+    // fit_can->Write();
+    W_hist_NPip_events[i]->Fit(g1, "R");
+    W_hist_NPip_events[i]->Fit(g2, "R+");
+    W_hist_NPip_events[i]->Fit(g3, "R+");
     W_hist_NPip_events[i]->Fit(total, "R+");
-    g3->Draw("same R+");
+
+    gStyle->SetOptFit(1111);
     W_hist_NPip_events[i]->SetXTitle("W (GeV)");
     W_hist_NPip_events[i]->Write();
     W_NPip_can->cd(i + 1);
     W_hist_NPip_events[i]->Draw("same");
     W_NPip_can->cd(i + 1);
     W_hist_NPip_events[i]->Draw("same");
-
+  }
+  W_NPip_can->Write();
+  for (short i = 0; i < NUM_SECTORS; i++) {
     W_hist_NPip_before_mmsq_cut_events[i]->SetXTitle("W (GeV)");
     W_hist_NPip_before_mmsq_cut_events[i]->Write();
 
@@ -697,10 +704,9 @@ void Histogram::Write_WvsQ2() {
     E_vs_theta_e_3rd_reso_events[i]->SetOption("COLZ");
     E_vs_theta_e_3rd_reso_events[i]->Write();
   }
-  W_NPip_can->Write();
 
   auto MM2_NPip_can = std::make_unique<TCanvas>("MM2 NPip_can", "MM2 NPip sectors", 1920, 1080);
-  MM2_NPip_can->Divide(3, 2);
+  MM2_NPip_can->Divide(4, 2);
   for (short i = 0; i < NUM_SECTORS; i++) {
     MM2_hist_NPip_events[i]->SetXTitle("MM2 (GeV)");
     MM2_hist_NPip_events[i]->Write();
