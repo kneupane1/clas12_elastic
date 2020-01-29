@@ -666,9 +666,9 @@ void Histogram::Write_WvsQ2() {
     // fit_can->cd(3);
     // g3->Draw("same");
     // fit_can->Write();
-    W_hist_NPip_events[i]->Fit(g1, "NR");
-    W_hist_NPip_events[i]->Fit(g2, "NR+");
-    W_hist_NPip_events[i]->Fit(g3, "NR+");
+    W_hist_NPip_events[i]->Fit(g1, "R");
+    W_hist_NPip_events[i]->Fit(g2, "R+");
+    W_hist_NPip_events[i]->Fit(g3, "R+");
     W_hist_NPip_events[i]->Fit(total, "R+");
 
     gStyle->SetOptFit(1111);
