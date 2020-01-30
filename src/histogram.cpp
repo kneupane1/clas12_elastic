@@ -649,7 +649,7 @@ void Histogram::Write_WvsQ2() {
     W_hist_NPip_events[i]->SetXTitle("W (GeV)");
     W_hist_NPip_events[i]->Write();
     // W_NPip_can->cd(i + 1);
-    W_hist_NPip_events[i]->Draw("same");
+    // W_hist_NPip_events[i]->Draw("same");
     //}
     // W_NPip_can->Write();
     // for (short i = 0; i < NUM_SECTORS; i++) {
@@ -683,12 +683,11 @@ void Histogram::Write_WvsQ2() {
     MM2_hist_NPip_events[i]->SetXTitle("MM2 (GeV)");
     MM2_hist_NPip_events[i]->Write();
     //  MM2_NPip_can->cd(i + 1);
-    MM2_hist_NPip_events[i]->Draw("same");
-    //}
-    // MM2_NPip_can->Write();
-    NPip_folder->Write();
-    delete NPip_folder;
+    //  MM2_hist_NPip_events[i]->Draw("same");
   }
+  // MM2_NPip_can->Write();
+  NPip_folder->Write();
+  delete NPip_folder;
 }
 void Histogram::Fill_MomVsBeta(const std::shared_ptr<Reaction>& _e) {
   if (!_e->onePositive_at180()) return;
