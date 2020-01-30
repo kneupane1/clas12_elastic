@@ -334,9 +334,6 @@ void Histogram::Fill_x_mu(const std::shared_ptr<Reaction>& _e) {
 }
 void Histogram::write_hist_x_mu() {
   for (short i; i < NUM_CONDITIONS; i++) {
-    E_x_mu_hist[i]->Fit("gaus", "QMR+", "QMR+", -0.45, 0.38);
-    //  gROOT->SetStyle("Plain");
-    gStyle->SetOptFit(1111);
     E_x_mu_hist[i]->SetXTitle("Energy comp (GeV)");
     E_x_mu_hist[i]->Write();
     diff_E2_P2_x_mu_hist[i]->SetXTitle("E2-P2 (GeV)");
@@ -359,57 +356,12 @@ void Histogram::write_hist_x_mu() {
     MM2_VS_W_x_mu_hist[i]->Write();
   }
 }
-// void Histogram::Write_SF() {
-//   sf_hist->SetOption("COLZ");
-//   sf_hist->Write();
-//   gStyle->SetOptFit(1111);
-//   // set stat
-//   SF_gr_upper->Fit("pol2");
-//   SF_gr_upper->SetTitle(" sf upper 3#sigma cut");
-//
-//   SF_gr_upper->Write();
-//   SF_gr_lower->Fit("pol2");
-//   SF_gr_lower->SetTitle(" sf lower 3#sigma cut");
-//
-//   SF_gr_lower->Write();
-//   EI_P_PCAL_P->SetOption("COLZ");
-//   EI_P_PCAL_P->SetXTitle("PCAL/P");
-//   EI_P_PCAL_P->SetYTitle("Etot/P");
-//   EI_P_PCAL_P->Write();
-//
-//   P_x_mu->SetXTitle("Momentum (GeV)");
-//   P_x_mu->Write();
-//   Px_x_mu->SetXTitle("Px (GeV)");
-//   Px_x_mu->Write();
-//   Py_x_mu->SetXTitle("Py (GeV)");
-//   Py_x_mu->Write();
-//   Pz_x_mu->SetXTitle("Pz (GeV)");
-//   Pz_x_mu->Write();
-//   diff_theta_ph_x_mu->SetXTitle("theta_diff (deg)");
-//   diff_theta_in_x_mu->SetXTitle("theta_diff (deg)");
-//   diff_theta_ph_x_mu->Write();
-//   diff_theta_in_x_mu->Write();
-//
-//   // Dthtea_vs_Dphi->SetXTitle("#Delata#Theta (deg)");
-//   // Dthtea_vs_Dphi->SetYTitle("#Delata#Phi (deg)");
-//   // Dthtea_vs_Dphi->SetOption("COLZ");
-//   // Dthtea_vs_Dphi->Write();
-// }
-// void Histogram::write_histSf() {
-//   for (size_t i = 0; i < W_BINS; i++) {
-//     SF_1D[i]->SetXTitle("sf (E/P)");
-//     SF_1D[i]->Fit("gaus", "QMR+", "QMR+", 0.225, 0.28);
-//     //  gROOT->SetStyle("Plain");
-//     gStyle->SetOptFit(1111);
-//     if (SF_1D[i]->GetEntries()) SF_1D[i]->Write();
-//   }
-// }
+
 void Histogram::Write_Electron_cuts() {
   for (auto&& cut : before_after_cut) {
     int c = cut.first;
     vz_position[c]->SetXTitle("vz (GeV)");
-    vz_position[c]->Fit("gaus", "QMR+", "QMR+", -7.089, 2.0);
-    gStyle->SetOptFit(1111);
+
     if (vz_position[c]->GetEntries()) vz_position[c]->Write();
     pcal_sec[c]->SetXTitle("x (cm)");
     pcal_sec[c]->SetYTitle("y (cm)");
