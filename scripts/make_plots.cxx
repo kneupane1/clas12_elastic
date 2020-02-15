@@ -13,7 +13,8 @@
 #include <string>
 #include "../include/constants.hpp"
 
-int make_plots(std::string inFileName = "/Users/tylern/Desktop/show/clas12/test.root") {
+int make_plots(std::string inFileName =
+                   "/home/krishna/Downloads/clas12_elastic/build/elastic_clas12_alldata_total_01_30_2020.root") {
   gStyle->SetHistMinimumZero();
   TFile *root_data = new TFile(inFileName.c_str());
 

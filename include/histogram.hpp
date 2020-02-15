@@ -64,7 +64,6 @@ class Histogram {
 
   static const short NUM_CUT = 2;
   // static const int W_BINS = 35;
-  // for loop le array create garna sakinchha?
   static const short NUM_CONDITIONS = 6;
   std::string NUM_CONDITIONS_NAME[NUM_CONDITIONS] = {"onePositive ",      "noOther_onePos",  " onePos_at180",
                                                      " at180_MM0_onePos", "E2_P2_Condition", "higher_then_200 MeV"};
@@ -90,7 +89,7 @@ class Histogram {
   TH1D_ptr MM_hist_NPip_before_cut =
       std::make_shared<TH1D>("MM_hist_NPip_before_cut", "MM_hist_NPip_before_cut", 500, p_min, w_max);
   TH1D_ptr MM2_hist_NPip_before_cut =
-      std::make_shared<TH1D>("MM2_hist_NPip_before_cut", "MM_hist_NPip_before_cut", 500, p_min, 16.0);
+      std::make_shared<TH1D>("MM2_hist_NPip_before_cut", "MM2_hist_NPip_before_cut", 500, p_min, 16.0);
   TH1D_ptr MM_hist_NPip = std::make_shared<TH1D>("MM_hist_NPip", "MM_hist_NPip", 500, p_min, w_max);
   TH1D_ptr MM2_hist_NPip = std::make_shared<TH1D>("MM2_hist_NPip", "MM_hist_NPip", 500, p_min, w_max);
 
@@ -117,6 +116,7 @@ class Histogram {
   TH1D_ptr W_hist_NPip_events[NUM_SECTORS];
   TH1D_ptr MM2_hist_NPip_events[NUM_SECTORS];
   TH2D_ptr E_vs_theta_e_all_events[NUM_SECTORS];
+  TH2D_ptr E_vs_theta_e_NPip_events[NUM_SECTORS];
   TH2D_ptr E_vs_theta_e_elastic_events[NUM_SECTORS];
   TH2D_ptr E_vs_theta_e_2nd_reso_events[NUM_SECTORS];
   TH2D_ptr E_vs_theta_e_3rd_reso_events[NUM_SECTORS];

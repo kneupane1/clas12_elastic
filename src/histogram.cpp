@@ -83,6 +83,10 @@ void Histogram::makeHists() {
     E_vs_theta_e_all_events[sec] =
         std::make_shared<TH2D>(Form("E_vs_theta_e_all_events_%d", sec), Form("E_vs_theta_e_all_events_%d", sec), bins,
                                zero, 40.0, bins, zero, p_max);
+
+    E_vs_theta_e_NPip_events[sec] =
+        std::make_shared<TH2D>(Form("E_vs_theta_e_NPip_events_%d", sec), Form("E_vs_theta_e_NPip_events_%d", sec), bins,
+                               zero, 40.0, bins, zero, p_max);
     E_vs_theta_e_elastic_events[sec] =
         std::make_shared<TH2D>(Form("E_vs_theta_e_elastic_events_%d", sec), Form("E_vs_theta_e_elastic_events_%d", sec),
                                bins, zero, 40.0, bins, zero, p_max);
@@ -105,9 +109,9 @@ void Histogram::makeHists() {
         std::make_shared<TH1D>(Form("MM2_hist_sec_%d", sec), Form("MM2_hist_sec_%d", sec), bins, -w_max, w_max);
 
     mass_pi0_hist[before_cut][sec] =
-        std::make_shared<TH1D>(Form("mass_pi0_hist_%d", sec), Form("mass_pi0_hist_%d", sec), bins, 0, 0.5);
+        std::make_shared<TH1D>(Form("mass_pi0_hist_%d", sec), Form("mass_pi0_hist_%d", sec), bins, 0, 2.5);
     mass_pi0_hist[after_cut][sec] = std::make_shared<TH1D>(Form("mass_pi0_hist_aferPcuts_%d", sec),
-                                                           Form("mass_pi0_hist_aferPcuts_%d", sec), bins, 0, 0.5);
+                                                           Form("mass_pi0_hist_aferPcuts_%d", sec), bins, 0, 2.5);
 
     W_hist_all_events[sec] =
         std::make_shared<TH1D>(Form("W_hist_sec_%d", sec), Form("W_hist_sec_%d", sec), bins, zero, w_max);
@@ -414,7 +418,8 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction>& _e) {
         W_hist_NPip_events[sec]->Fill(_e->W());
         MM_hist_NPip->Fill(_e->MM_NPip());
         MM2_hist_NPip->Fill(_e->MM2_NPip());
-
+        E_vs_theta_e_NPip_events[all_sectors][0]->Fill(_e->theta_elec(), _e->E_elec());
+        E_vs_theta_e_NPip_events[sec][0]->Fill(_e->theta_elec(), _e->E_elec());
         if (_e->W() > 1.44 && _e->W() < 1.58) {
           E_vs_theta_e_2nd_reso_events[all_sectors]->Fill(_e->theta_elec(), _e->E_elec());
           E_vs_theta_e_2nd_reso_events[sec]->Fill(_e->theta_elec(), _e->E_elec());
@@ -612,6 +617,11 @@ void Histogram::Write_WvsQ2() {
     E_vs_theta_e_all_events[i]->SetYTitle("E' (GeV)");
     E_vs_theta_e_all_events[i]->SetOption("COLZ");
     E_vs_theta_e_all_events[i]->Write();
+
+    E_vs_theta_e_NPip_events[i]->SetXTitle("theta (deg)");
+    E_vs_theta_e_NPip_events[i]->SetYTitle("E' (GeV)");
+    E_vs_theta_e_NPip_events[i]->SetOption("COLZ");
+    E_vs_theta_e_NPip_events[i]->Write();
 
     E_vs_theta_e_elastic_events[i]->SetXTitle("theta (deg)");
     E_vs_theta_e_elastic_events[i]->SetYTitle("E' (GeV)");
