@@ -97,8 +97,9 @@ void Histogram::makeHists() {
         std::make_shared<TH2D>(Form("E_vs_theta_e_3rd_resonance_region_%d", sec),
                                Form("E_vs_theta_e_3rd_resonance_region_%d", sec), bins, zero, 40.0, bins, zero, p_max);
 
-    W_hist_NPip_before_mmsq_cut_events[sec] = std::make_shared<TH1D>(
-        Form("W_hist_NPip_events_sec_%d", sec), Form("W_hist_NPip_events_sec_%d", sec), bins, zero, w_max);
+    W_hist_NPip_before_mmsq_cut_events[sec] =
+        std::make_shared<TH1D>(Form("W_hist_NPip_before_mmsq_cut_sec_%d", sec),
+                               Form("W_hist_NPip_before_mmsq_cut_sec_%d", sec), bins, zero, w_max);
 
     W_hist_NPip_events[sec] =
         std::make_shared<TH1D>(Form("W_hist_NPip_sec_%d", sec), Form("W_hist_NPip_sec_%d", sec), bins, 0.0, w_max);
