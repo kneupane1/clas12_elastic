@@ -419,8 +419,8 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction>& _e) {
         W_hist_NPip_events[sec]->Fill(_e->W());
         MM_hist_NPip->Fill(_e->MM_NPip());
         MM2_hist_NPip->Fill(_e->MM2_NPip());
-        E_vs_theta_e_NPip_events[all_sectors][0]->Fill(_e->theta_elec(), _e->E_elec());
-        E_vs_theta_e_NPip_events[sec][0]->Fill(_e->theta_elec(), _e->E_elec());
+        E_vs_theta_e_NPip_events[all_sectors]->Fill(_e->theta_elec(), _e->E_elec());
+        E_vs_theta_e_NPip_events[sec]->Fill(_e->theta_elec(), _e->E_elec());
         if (_e->W() > 1.44 && _e->W() < 1.58) {
           E_vs_theta_e_2nd_reso_events[all_sectors]->Fill(_e->theta_elec(), _e->E_elec());
           E_vs_theta_e_2nd_reso_events[sec]->Fill(_e->theta_elec(), _e->E_elec());
